@@ -1,0 +1,13 @@
+{
+  "name": "Tank Manager",
+  "short_name": "Tank",
+  "description": "Water test log, trends, and recommendations for T40-FW",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1418",
+  "theme_color": "#0f6e74",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
