@@ -29,6 +29,7 @@
 
     <section id="readingsSection" hidden>
       <h2>Latest readings</h2>
+      <p class="tap-hint">Tap a reading for details</p>
       <div id="readings" class="grid"></div>
     </section>
 
@@ -59,8 +60,18 @@
       <input id="fileInput" type="file" accept=".csv,text/csv" hidden>
     </label>
     <p id="source" class="muted small"></p>
-    <p class="muted small">App v1.1</p>
+    <p class="muted small">App v1.2</p>
   </footer>
+
+  <div id="detail" class="sheet-wrap" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <div class="sheet-head">
+        <h2 id="detailTitle">Reading</h2>
+        <button id="detailClose" type="button" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <div id="detailBody" class="sheet-body"></div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
