@@ -1,7 +1,7 @@
-/* Tank Manager service worker — v1.2
+/* Tank Manager service worker — v1.3
  * App files: cache first (works offline). CSV: network first, cached copy when offline.
  * Bump CACHE when app files change so phones pick up the new version. */
-const CACHE = 'tank-manager-v1.2';
+const CACHE = 'tank-manager-v1.3';
 const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest', 'icon.svg'];
 
 self.addEventListener('install', e => {

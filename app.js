@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.2
+/* Tank Manager PWA v1.3
  * Reads tank_water_log.csv (fixed 22-column schema) and shows status,
  * recommendation, latest readings (tap a tile for a detail card), trend charts, and the test log.
  */
@@ -98,6 +98,42 @@ const INFO = {
     fix: 'Water changes remove it.'
   }
 };
+
+/* Nitrogen cycle guide (v1.3). Opened from the Learn button in the header. */
+const CYCLE_STEPS = [
+  {
+    key: 'ammonia_ppm', name: 'Ammonia', formula: 'NH₃ / NH₄⁺', tone: 'ACTION', tag: 'Step 1 · Toxic',
+    role: 'The starting point. Every bit of waste in the tank breaks down into ammonia. It is the food for the first group of bacteria.',
+    sources: [
+      'Fish breathing it out through their gills (the biggest source)',
+      'Fish poop',
+      'Uneaten food rotting on the bottom',
+      'Dead or melting plant leaves',
+      'New plant soil, which can leak ammonia for its first few weeks',
+      'A dead fish or snail hidden in the tank'
+    ],
+    note: 'At low pH most of it is in the milder ammonium form (NH₄⁺). As pH and temperature rise, more turns into the toxic form (NH₃).'
+  },
+  {
+    key: 'nitrite_ppm', name: 'Nitrite', formula: 'NO₂⁻', tone: 'WATCH', tag: 'Step 2 · Toxic',
+    role: 'The middle step. Bacteria make it from ammonia, and a second group of bacteria eats it. It only builds up when that second group cannot keep up.',
+    sources: [
+      'Made by ammonia-eating bacteria in the filter, sand, and on the driftwood',
+      'Not normally in tap water'
+    ],
+    note: 'Nitrite stops fish blood from carrying oxygen. Fish with nitrite poisoning gasp at the surface.'
+  },
+  {
+    key: 'nitrate_ppm', name: 'Nitrate', formula: 'NO₃⁻', tone: 'OK', tag: 'Step 3 · Much safer',
+    role: 'The end product. Far less toxic, but it keeps building up because nothing in a normal tank breaks it down. You remove it.',
+    sources: [
+      'Made by nitrite-eating bacteria',
+      'Some tap water (yours tested 0 on 10/04)',
+      'Nutrient-rich plant soil can release some'
+    ],
+    note: 'Removed by water changes and soaked up by live plants as fertilizer.'
+  }
+];
 
 const DETAIL_DAYS = 14;
 let OPEN_DETAIL = null;
@@ -413,7 +449,106 @@ function render(data, sourceText) {
 
 /* ---------- Reading detail card (v1.2) ---------- */
 
+/* Where the latest test puts the tank in the cycle. Plain language, no overclaiming. */
+function cycleStageText(recs) {
+  const last = recs[recs.length - 1];
+  if (!last) return null;
+  const a = num(last.ammonia_ppm), n = num(last.nitrite_ppm), no3 = num(last.nitrate_ppm), ph = num(last.ph);
+  const day = last.cycle_day ? `Day ${esc(last.cycle_day)}` : 'Latest test';
+  const fishless = isFishless(last);
+  let stage, text;
+  if (a == null && n == null) return null;
+  if ((n || 0) > 0) {
+    stage = 'Stage 2';
+    text = (a || 0) > 0
+      ? 'Ammonia and nitrite are both showing. The first bacteria are working and the second group is still catching up.'
+      : 'Ammonia is being handled and nitrite is showing. The nitrite-eating bacteria are still growing. Nitrite usually takes longest to clear.';
+  } else if ((a || 0) > 0) {
+    stage = 'Stage 1';
+    text = 'Ammonia is showing but no nitrite yet. The ammonia-eating bacteria are still growing.';
+  } else if (fishless) {
+    stage = 'Waiting';
+    text = 'Ammonia and nitrite both read 0 with no fish. The bacteria need an ammonia source to grow.';
+  } else {
+    stage = 'Early, or done';
+    text = 'Ammonia and nitrite both read 0. In a new tank this usually means waste has not built up yet, and ammonia often shows up in the first week or two. In an established tank it means the cycle is keeping up. A tank is cycled when both stay at 0 for about a week of daily tests while nitrate slowly rises.';
+  }
+  const extra = [];
+  if (ph != null && ph < 6.5) extra.push(`pH is ${fmt(ph)}. Below about 6.5 the bacteria slow down, so the cycle can take longer.`);
+  const kh = num(last.kh_ppm);
+  if (kh != null && kh < 60) extra.push(`KH is ${fmt(kh)} ppm. The bacteria use up KH as they work, so keep it topped up with water changes.`);
+  return `<div class="now"><div><div class="lbl">${day} · ${esc(last.date)}</div>` +
+    `<div class="stage">${stage}</div>` +
+    `<div class="small muted">Ammonia ${fmt(a)} · Nitrite ${fmt(n)} · Nitrate ${fmt(no3)} ppm</div></div></div>` +
+    `<p>${text}</p>${extra.map(t => `<p class="small warn-text">${t}</p>`).join('')}`;
+}
+
+function fillLearn() {
+  const recs = STATE.current || [];
+  const last = recs[recs.length - 1];
+
+  const flow = '<div class="flow" role="img" aria-label="Waste becomes ammonia, bacteria turn it into nitrite, other bacteria turn that into nitrate, water changes and plants remove it">' +
+    '<div class="flow-box src"><b>Waste</b><span>fish, food, plants</span></div>' +
+    '<div class="flow-arrow">↓ <span>breaks down into</span></div>' +
+    CYCLE_STEPS.map((s, i) => {
+      const v = last ? num(last[s.key]) : null;
+      const now = v == null ? '' : `<span class="flow-now">yours: ${fmt(v)} ppm</span>`;
+      const arrow = i === 0
+        ? '<div class="flow-arrow">↓ <span>eaten by ammonia bacteria</span></div>'
+        : i === 1 ? '<div class="flow-arrow">↓ <span>eaten by nitrite bacteria</span></div>'
+          : '<div class="flow-arrow">↓ <span>removed by</span></div>';
+      return `<div class="flow-box ${s.tone}"><b>${s.name} <small>${s.formula}</small></b><span>${s.tag}</span>${now}</div>${arrow}`;
+    }).join('') +
+    '<div class="flow-box src"><b>Out of the tank</b><span>water changes · plants</span></div>' +
+    '</div>';
+
+  const steps = CYCLE_STEPS.map(s => {
+    const v = last ? num(last[s.key]) : null;
+    const st = v == null ? null : paramStatus(s.key, v, isFishless(last));
+    return `<div class="step ${st || ''}"><div class="step-head"><b>${s.name}</b>${st ? badge(st) : ''}</div>` +
+      `<p>${esc(s.role)}</p><p class="step-sub">Where it comes from in your tank</p>` +
+      `<ul>${s.sources.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` +
+      `<p class="small muted">${esc(s.note)}</p>` +
+      `<button type="button" class="link-btn" data-open="${s.key}">See your ${s.name.toLowerCase()} readings →</button></div>`;
+  }).join('');
+
+  const stage = cycleStageText(recs);
+
+  document.getElementById('detailTitle').textContent = 'The nitrogen cycle';
+  document.getElementById('detailBody').innerHTML =
+    '<p class="lead">How your tank turns toxic fish waste into something much safer. The work is done by bacteria that live on surfaces: the filter media, the sand, and the driftwood. Very few float in the water.</p>' +
+    (stage ? `<h3>Your tank right now</h3>${stage}` : '') +
+    `<h3>The cycle at a glance</h3>${flow}` +
+    `<h3>Each step</h3>${steps}` +
+    '<h3>The bacteria</h3><ul class="explain">' +
+    '<li><b>Ammonia eaters</b> (Nitrosomonas-type bacteria) turn ammonia into nitrite.</li>' +
+    '<li><b>Nitrite eaters</b> (mostly Nitrospira) turn nitrite into nitrate.</li>' +
+    '<li><b>What they need:</b> oxygen (good water flow), a steady food supply, warm water, pH above about 6.5, and KH, which they use up as they work.</li>' +
+    '<li><b>What kills them:</b> chlorine from untreated tap water, and letting the filter dry out or sit switched off for hours.</li>' +
+    '<li><b>Protect them:</b> rinse filter media in old tank water, never under the tap. Never replace all the media at once.</li>' +
+    '<li><b>Bottled bacteria</b> like Nite-Out II add a starter colony so they establish sooner.</li>' +
+    '</ul>' +
+    '<h3>How a new tank cycles</h3><ol class="explain">' +
+    '<li><b>Stage 1 — Ammonia rises.</b> Waste builds up faster than the few bacteria can eat it.</li>' +
+    '<li><b>Stage 2 — Nitrite rises, ammonia falls.</b> Ammonia eaters have grown; nitrite eaters are catching up. This stage usually lasts longest.</li>' +
+    '<li><b>Stage 3 — Ammonia and nitrite at 0, nitrate rising.</b> Both groups keep up. When this holds for about a week of daily tests, the tank is cycled.</li>' +
+    '</ol><p>It usually takes 2–6 weeks. With fish in the tank, water changes keep ammonia and nitrite at 0.25 ppm or lower while the bacteria catch up.</p>' +
+    '<button type="button" class="btn close-wide" data-close>Close</button>';
+
+  document.querySelectorAll('#detailBody [data-close]').forEach(b => b.addEventListener('click', closeDetail));
+  document.querySelectorAll('#detailBody [data-open]').forEach(b => b.addEventListener('click', () => switchDetail(b.dataset.open)));
+}
+
+/* Swap the open card's content without stacking history entries. */
+function switchDetail(key) {
+  OPEN_DETAIL = key;
+  fillDetail(key);
+  try { history.replaceState({ detail: key }, ''); } catch (e) { /* ignore */ }
+  document.getElementById('detailBody').scrollTop = 0;
+}
+
 function fillDetail(key) {
+  if (key === 'learn') return fillLearn();
   const p = PARAMS.find(x => x.key === key);
   const info = INFO[key];
   if (!p || !info) return;
@@ -480,8 +615,11 @@ function fillDetail(key) {
     `<h3>Last ${DETAIL_DAYS} days</h3>` +
     `<div class="legend"><span><i class="sw ok"></i>Normal</span><span><i class="sw danger"></i>Danger</span><span><i class="sw avg"></i>Average</span></div>` +
     chart + table +
+    (['ammonia_ppm', 'nitrite_ppm', 'nitrate_ppm'].includes(key)
+      ? '<button type="button" class="link-btn" data-open="learn">How the nitrogen cycle works →</button>' : '') +
     '<button type="button" class="btn close-wide" data-close>Close</button>';
   document.querySelectorAll('#detailBody [data-close]').forEach(b => b.addEventListener('click', closeDetail));
+  document.querySelectorAll('#detailBody [data-open]').forEach(b => b.addEventListener('click', () => switchDetail(b.dataset.open)));
 }
 
 function openDetail(key) {
@@ -540,6 +678,7 @@ async function load() {
 
 if (typeof document !== 'undefined') {
   document.getElementById('refreshBtn').addEventListener('click', load);
+  document.getElementById('learnBtn').addEventListener('click', () => openDetail('learn'));
   document.getElementById('detailClose').addEventListener('click', closeDetail);
   document.getElementById('detail').addEventListener('click', e => { if (e.target.id === 'detail') closeDetail(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && OPEN_DETAIL) closeDetail(); });
