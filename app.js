@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.5
+/* Tank Manager PWA v1.6
  * Reads tank_water_log.csv (fixed 22-column schema) and shows status,
  * recommendation, latest readings (tap a tile for its detail card and 14-day trend), and the test log.
  */
@@ -439,19 +439,37 @@ function cycleStageText(recs) {
   let stage, text;
   if (a == null && n == null) return null;
   if ((n || 0) > 0) {
-    stage = 'Stage 2';
+    stage = 'Stage 2 · Nitrite rising';
     text = (a || 0) > 0
       ? 'Ammonia and nitrite are both showing. The first bacteria are working and the second group is still catching up.'
       : 'Ammonia is being handled and nitrite is showing. The nitrite-eating bacteria are still growing. Nitrite usually takes longest to clear.';
   } else if ((a || 0) > 0) {
-    stage = 'Stage 1';
+    stage = 'Stage 1 · Ammonia rising';
     text = 'Ammonia is showing but no nitrite yet. The ammonia-eating bacteria are still growing.';
   } else if (fishless) {
     stage = 'Waiting';
     text = 'Ammonia and nitrite both read 0 with no fish. The bacteria need an ammonia source to grow.';
   } else {
-    stage = 'Early, or done';
-    text = 'Ammonia and nitrite both read 0. In a new tank this usually means waste has not built up yet, and ammonia often shows up in the first week or two. In an established tank it means the cycle is keeping up. A tank is cycled when both stay at 0 for about a week of daily tests while nitrate slowly rises.';
+    // Both 0 with fish in. Only call it cycled when the history proves it (v1.6):
+    // a spike already happened (or the cycle is 4+ weeks old), then 7+ days of zeros with nitrate showing.
+    const withN = recs.filter(r => num(r.ammonia_ppm) != null || num(r.nitrite_ppm) != null);
+    const spiked = withN.some(r => (num(r.ammonia_ppm) || 0) > 0 || (num(r.nitrite_ppm) || 0) > 0);
+    let lastSpike = -Infinity;
+    withN.forEach(r => { if ((num(r.ammonia_ppm) || 0) > 0 || (num(r.nitrite_ppm) || 0) > 0) lastSpike = r._ts; });
+    const zeros = withN.filter(r => r._ts > lastSpike);
+    const zeroDays = zeros.length ? (zeros[zeros.length - 1]._ts - zeros[0]._ts) / 86400000 : 0;
+    const dayNum = num(last.cycle_day) || 0;
+    const nitrateShowing = (no3 || 0) > 0;
+    if ((spiked || dayNum >= 28) && zeroDays >= 7 && nitrateShowing) {
+      stage = 'Stage 3 · Cycled';
+      text = 'Ammonia and nitrite have read 0 for at least a week while nitrate shows up. The bacteria are keeping up with the waste. Keep testing a few times a week and do regular water changes to control nitrate.';
+    } else if (spiked) {
+      stage = 'Stage 3 · Finishing';
+      text = 'Ammonia and nitrite are back to 0 after showing earlier. The bacteria are catching up. Keep testing daily; once both stay at 0 for about a week with nitrate showing, the tank is cycled.';
+    } else {
+      stage = 'Stage 1 · Early cycle';
+      text = 'Ammonia and nitrite still read 0 because waste has not built up faster than the young bacteria can handle yet. With fish in, ammonia usually shows up within the first week or two (new plant soil can bring it sooner). Keep testing daily so you catch it early.';
+    }
   }
   const extra = [];
   if (ph != null && ph < 6.5) extra.push(`pH is ${fmt(ph)}. Below about 6.5 the bacteria slow down, so the cycle can take longer.`);
