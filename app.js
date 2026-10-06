@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.3
+/* Tank Manager PWA v1.4
  * Reads tank_water_log.csv (fixed 22-column schema) and shows status,
  * recommendation, latest readings (tap a tile for a detail card), trend charts, and the test log.
  */
@@ -483,24 +483,56 @@ function cycleStageText(recs) {
     `<p>${text}</p>${extra.map(t => `<p class="small warn-text">${t}</p>`).join('')}`;
 }
 
+/* Nitrogen cycle graphic (v1.4). Circular diagram drawn with theme colors so it
+ * works in light and dark mode. Shows the latest readings inside each circle. */
+function cycleGraphicSVG(last) {
+  const val = k => { const v = last ? num(last[k]) : null; return v == null ? '' : `yours: ${fmt(v)}`; };
+  const node = (x, y, color, l1, l2, l3, cls = 'nc-val') =>
+    `<circle cx="${x}" cy="${y}" r="40" fill="var(--card)" stroke="${color}" stroke-width="3"/>` +
+    `<text x="${x}" y="${y - 6}" class="nc-name">${l1}</text>` +
+    `<text x="${x}" y="${y + 8}" class="nc-sub">${l2}</text>` +
+    (l3 ? `<text x="${x}" y="${y + 22}" class="${cls}">${l3}</text>` : '');
+  const label = (x, y, a, b) =>
+    `<text x="${x}" y="${y - 2}" class="nc-lbl">${a}</text><text x="${x}" y="${y + 10}" class="nc-lbl">${b}</text>`;
+  const arc = d => `<path d="${d}" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#ncArrow)"/>`;
+  return '<svg class="ncycle" viewBox="0 0 340 410" role="img" aria-labelledby="ncTitle ncDesc">' +
+    '<title id="ncTitle">The nitrogen cycle in your tank</title>' +
+    '<desc id="ncDesc">Fish waste, food, and plants break down into ammonia. Ammonia-eating bacteria turn it into nitrite. ' +
+    'Nitrite-eating bacteria turn that into nitrate. Plants feed on nitrate, and water changes remove the rest.</desc>' +
+    '<defs><marker id="ncArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">' +
+    '<path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>' +
+    // ring arcs (clockwise)
+    arc('M216.0,84.7 A104,104 0 0 1 263.3,132.0') +
+    arc('M263.3,224.0 A104,104 0 0 1 216.0,271.3') +
+    arc('M124.0,271.3 A104,104 0 0 1 76.7,224.0') +
+    arc('M76.7,132.0 A104,104 0 0 1 124.0,84.7') +
+    // what happens on each arc
+    label(217, 131, 'breaks down', 'into ammonia') +
+    label(217, 225, 'ammonia-eating', 'bacteria') +
+    label(123, 225, 'nitrite-eating', 'bacteria') +
+    label(123, 131, 'plants feed', 'on nitrate') +
+    // center
+    '<text x="170" y="172" class="nc-center">Bacteria live on the</text>' +
+    '<text x="170" y="186" class="nc-center">filter, sand &amp; wood</text>' +
+    // nodes
+    node(170, 74, 'var(--avg)', 'Waste', 'fish · food', '& plants', 'nc-sub') +
+    node(274, 178, 'var(--action)', 'Ammonia', 'NH₃ · toxic', val('ammonia_ppm')) +
+    node(170, 282, 'var(--watch)', 'Nitrite', 'NO₂ · toxic', val('nitrite_ppm')) +
+    node(66, 178, 'var(--ok)', 'Nitrate', 'NO₃ · safer', val('nitrate_ppm')) +
+    // exit: water changes
+    '<path d="M36,206 L36,346" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#ncArrow)"/>' +
+    '<rect x="16" y="352" width="308" height="46" rx="10" fill="var(--card)" stroke="var(--line)" stroke-width="1.5"/>' +
+    '<text x="170" y="371" class="nc-name">Out of the tank</text>' +
+    '<text x="170" y="388" class="nc-sub">water changes remove the nitrate that builds up</text>' +
+    '</svg>';
+}
+
 function fillLearn() {
   const recs = STATE.current || [];
   const last = recs[recs.length - 1];
 
-  const flow = '<div class="flow" role="img" aria-label="Waste becomes ammonia, bacteria turn it into nitrite, other bacteria turn that into nitrate, water changes and plants remove it">' +
-    '<div class="flow-box src"><b>Waste</b><span>fish, food, plants</span></div>' +
-    '<div class="flow-arrow">↓ <span>breaks down into</span></div>' +
-    CYCLE_STEPS.map((s, i) => {
-      const v = last ? num(last[s.key]) : null;
-      const now = v == null ? '' : `<span class="flow-now">yours: ${fmt(v)} ppm</span>`;
-      const arrow = i === 0
-        ? '<div class="flow-arrow">↓ <span>eaten by ammonia bacteria</span></div>'
-        : i === 1 ? '<div class="flow-arrow">↓ <span>eaten by nitrite bacteria</span></div>'
-          : '<div class="flow-arrow">↓ <span>removed by</span></div>';
-      return `<div class="flow-box ${s.tone}"><b>${s.name} <small>${s.formula}</small></b><span>${s.tag}</span>${now}</div>${arrow}`;
-    }).join('') +
-    '<div class="flow-box src"><b>Out of the tank</b><span>water changes · plants</span></div>' +
-    '</div>';
+  const flow = `<div class="ncycle-wrap">${cycleGraphicSVG(last)}</div>` +
+    '<p class="small muted">Follow the arrows clockwise from the top. Red and yellow are the toxic steps; green is much safer. The numbers are your latest test.</p>';
 
   const steps = CYCLE_STEPS.map(s => {
     const v = last ? num(last[s.key]) : null;
@@ -517,8 +549,8 @@ function fillLearn() {
   document.getElementById('detailTitle').textContent = 'The nitrogen cycle';
   document.getElementById('detailBody').innerHTML =
     '<p class="lead">How your tank turns toxic fish waste into something much safer. The work is done by bacteria that live on surfaces: the filter media, the sand, and the driftwood. Very few float in the water.</p>' +
+    `<h3>The cycle in one picture</h3>${flow}` +
     (stage ? `<h3>Your tank right now</h3>${stage}` : '') +
-    `<h3>The cycle at a glance</h3>${flow}` +
     `<h3>Each step</h3>${steps}` +
     '<h3>The bacteria</h3><ul class="explain">' +
     '<li><b>Ammonia eaters</b> (Nitrosomonas-type bacteria) turn ammonia into nitrite.</li>' +
