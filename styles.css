@@ -105,6 +105,25 @@ main { padding: 0 16px; max-width: 720px; margin: 0 auto; }
 .tile .lbl { font-size: .75rem; color: var(--muted); }
 .tile .val { font-size: 1.25rem; font-weight: 700; }
 .tile .unit { font-size: .75rem; color: var(--muted); font-weight: 400; }
+.tile .desc { font-size: .7rem; color: var(--muted); line-height: 1.25; margin-top: 3px; }
+
+.switch {
+  display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  scrollbar-width: none;
+}
+.switch::-webkit-scrollbar { display: none; }
+.chip {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--text);
+  border-radius: 999px; padding: 6px 12px; font: inherit; font-size: .9rem; cursor: pointer;
+}
+.chip.on { border-color: var(--brand); background: var(--brand); color: #fff; font-weight: 600; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.dot.OK { background: var(--ok); }
+.dot.WATCH { background: var(--watch); }
+.dot.ACTION { background: var(--action); }
+.chip.on .dot { box-shadow: 0 0 0 2px #fff; }
 
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .8rem; color: var(--muted); margin-bottom: 8px; }
 .sw { display: inline-block; width: 18px; height: 0; border-top: 2px dashed; vertical-align: middle; margin-right: 5px; }

@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.0
+/* Tank Manager PWA v1.1
  * Reads tank_water_log.csv (fixed 22-column schema) and shows status,
  * recommendation, latest readings, per-parameter trend charts, and the test log.
  */
@@ -15,16 +15,19 @@ const STORE_KEY = 'tank_csv_v1';
  * okLow/okHigh = green "normal" lines. dangerLow/dangerHigh = red "danger" lines.
  * cycleDangerHigh = danger line used during a fishless cycle (fish_count = 0). */
 const PARAMS = [
-  { key: 'temp_f', label: 'Temperature', unit: '°F', okLow: 76, okHigh: 80, dangerLow: 74, dangerHigh: 82 },
-  { key: 'ph', label: 'pH', unit: '', okLow: 6.5, okHigh: 7.8, dangerLow: 6.0, dangerHigh: 8.2 },
-  { key: 'ammonia_ppm', label: 'Ammonia', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 4 },
-  { key: 'nitrite_ppm', label: 'Nitrite', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 5 },
-  { key: 'nitrate_ppm', label: 'Nitrate', unit: 'ppm', okHigh: 20, dangerHigh: 40 },
-  { key: 'kh_ppm', label: 'KH', unit: 'ppm', okLow: 60, dangerLow: 40 },
-  { key: 'gh_ppm', label: 'GH', unit: 'ppm' },
-  { key: 'free_chlorine_ppm', label: 'Free chlorine', unit: 'ppm', okHigh: 0 },
-  { key: 'nacl_ppm', label: 'Salt (NaCl)', unit: 'ppm' }
+  { key: 'temp_f', label: 'Temperature', desc: 'Water temperature', unit: '°F', okLow: 76, okHigh: 80, dangerLow: 74, dangerHigh: 82 },
+  { key: 'ph', label: 'pH', desc: 'Acid / base balance', unit: '', okLow: 6.5, okHigh: 7.8, dangerLow: 6.0, dangerHigh: 8.2 },
+  { key: 'ammonia_ppm', label: 'Ammonia', desc: 'Fish waste - toxic', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 4 },
+  { key: 'nitrite_ppm', label: 'Nitrite', desc: 'Breakdown of ammonia - toxic', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 5 },
+  { key: 'nitrate_ppm', label: 'Nitrate', desc: 'End product - remove with water changes', unit: 'ppm', okHigh: 20, dangerHigh: 40 },
+  { key: 'kh_ppm', label: 'Alkalinity (KH)', desc: 'Carbonate hardness - keeps pH steady', unit: 'ppm', okLow: 60, dangerLow: 40 },
+  { key: 'gh_ppm', label: 'Water hardness (GH)', desc: 'General hardness - calcium and magnesium', unit: 'ppm' },
+  { key: 'free_chlorine_ppm', label: 'Free chlorine', desc: 'From tap water - toxic', unit: 'ppm', okHigh: 0 },
+  { key: 'nacl_ppm', label: 'Salt (NaCl)', desc: 'Aquarium salt level', unit: 'ppm' }
 ];
+
+const TANK_KEY = 'tank_selected_v1';
+let STATE = { recs: [], problems: [], source: '' };
 
 const RANK = { OK: 0, WATCH: 1, ACTION: 2 };
 
@@ -196,9 +199,49 @@ function badge(s) {
   return `<span class="badge ${cls}">${esc(s || '—')}</span>`;
 }
 
+/* Group rows by tank_id. Tanks are ordered by most recent test first. */
+function groupTanks(recs) {
+  const map = new Map();
+  recs.forEach(r => {
+    const id = r.tank_id || 'Unnamed tank';
+    if (!map.has(id)) map.set(id, []);
+    map.get(id).push(r);
+  });
+  return [...map.entries()]
+    .map(([id, rows]) => ({ id, rows, last: rows[rows.length - 1] }))
+    .sort((a, b) => b.last._ts - a.last._ts);
+}
+
+function savedTank() {
+  try { return localStorage.getItem(TANK_KEY); } catch (e) { return null; }
+}
+
+function selectTank(id) {
+  try { localStorage.setItem(TANK_KEY, id); } catch (e) { /* storage unavailable */ }
+  render(STATE, STATE.source);
+  window.scrollTo(0, 0);
+}
+
 function render(data, sourceText) {
   const $ = id => document.getElementById(id);
-  const { recs, problems } = data;
+  STATE = { recs: data.recs, problems: data.problems, source: sourceText };
+  const { problems } = data;
+
+  // Tank switcher (shown when the log has more than one tank_id)
+  const tanks = groupTanks(data.recs);
+  const want = savedTank();
+  const current = tanks.find(t => t.id === want) || tanks[0];
+  const recs = current ? current.rows : [];
+  const sw = $('tankSwitch');
+  if (tanks.length > 1) {
+    sw.hidden = false;
+    sw.innerHTML = tanks.map(t => {
+      const s = RANK[t.last.status] != null ? t.last.status : 'NONE';
+      const on = t.id === current.id;
+      return `<button class="chip${on ? ' on' : ''}" data-tank="${esc(t.id)}" aria-pressed="${on}"><i class="dot ${s}"></i>${esc(t.id)}</button>`;
+    }).join('');
+    sw.querySelectorAll('button').forEach(b => b.addEventListener('click', () => selectTank(b.dataset.tank)));
+  } else { sw.hidden = true; sw.innerHTML = ''; }
 
   const warn = $('warnings');
   if (problems.length) {
@@ -247,7 +290,7 @@ function render(data, sourceText) {
     const v = num(last[p.key]);
     if (v == null) return '';
     const s = paramStatus(p.key, v, fishless) || '';
-    return `<div class="tile ${s}"><div class="lbl">${esc(p.label)}</div><div class="val">${fmt(v)} <span class="unit">${esc(p.unit)}</span></div></div>`;
+    return `<div class="tile ${s}"><div class="lbl">${esc(p.label)}</div><div class="val">${fmt(v)} <span class="unit">${esc(p.unit)}</span></div><div class="desc">${esc(p.desc)}</div></div>`;
   }).join('');
   $('readingsSection').hidden = false;
 
@@ -267,7 +310,7 @@ function render(data, sourceText) {
     if (fishless && (p.key === 'ammonia_ppm' || p.key === 'nitrite_ppm')) {
       hint = `<p class="hint">Fishless cycle: up to ${p.cycleDangerHigh} ppm is expected while bacteria grow.</p>`;
     }
-    return `<div class="card chart"><div class="chart-head"><b>${esc(p.label)}</b><span>${fmt(lastV)} ${esc(p.unit)}${trend}</span></div>${hint}${chartSVG(p, points, fishless)}</div>`;
+    return `<div class="card chart"><div class="chart-head"><b>${esc(p.label)}</b><span>${fmt(lastV)} ${esc(p.unit)}${trend}</span></div><p class="hint">${esc(p.desc)}</p>${hint}${chartSVG(p, points, fishless)}</div>`;
   }).join('');
   $('chartsSection').hidden = false;
 
