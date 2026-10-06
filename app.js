@@ -1,7 +1,7 @@
 'use strict';
-/* Tank Manager PWA v1.4
+/* Tank Manager PWA v1.5
  * Reads tank_water_log.csv (fixed 22-column schema) and shows status,
- * recommendation, latest readings (tap a tile for a detail card), trend charts, and the test log.
+ * recommendation, latest readings (tap a tile for its detail card and 14-day trend), and the test log.
  */
 
 const SCHEMA = ('date,time,tank_id,cycle_day,temp_f,ph,ammonia_ppm,nitrite_ppm,nitrate_ppm,' +
@@ -364,7 +364,7 @@ function render(data, sourceText) {
   $('source').textContent = sourceText;
 
   if (!recs.length) {
-    ['statusCard', 'readingsSection', 'chartsSection', 'logSection'].forEach(id => { $(id).hidden = true; });
+    ['statusCard', 'readingsSection', 'logSection'].forEach(id => { $(id).hidden = true; });
     $('empty').hidden = false;
     $('tankSub').textContent = 'No tests logged yet';
     return;
@@ -411,26 +411,6 @@ function render(data, sourceText) {
   $('readings').querySelectorAll('.tile').forEach(b => b.addEventListener('click', () => openDetail(b.dataset.key)));
   $('readingsSection').hidden = false;
   STATE.current = recs;
-
-  // Charts
-  $('charts').innerHTML = PARAMS.map(p => {
-    const points = recs
-      .map(r => ({ t: r._ts, v: num(r[p.key]), label: `${r.date} ${r.time}`, fishless: isFishless(r) }))
-      .filter(d => d.v != null && !isNaN(d.t));
-    if (!points.length) return '';
-    const lastV = points[points.length - 1].v;
-    let trend = '';
-    if (points.length > 1) {
-      const prev = points[points.length - 2].v;
-      trend = lastV > prev ? ' ↑' : lastV < prev ? ' ↓' : ' →';
-    }
-    let hint = '';
-    if (fishless && (p.key === 'ammonia_ppm' || p.key === 'nitrite_ppm')) {
-      hint = `<p class="hint">Fishless cycle: up to ${p.cycleDangerHigh} ppm is expected while bacteria grow.</p>`;
-    }
-    return `<div class="card chart"><div class="chart-head"><b>${esc(p.label)}</b><span>${fmt(lastV)} ${esc(p.unit)}${trend}</span></div><p class="hint">${esc(p.desc)}</p>${hint}${chartSVG(p, points, fishless)}</div>`;
-  }).join('');
-  $('chartsSection').hidden = false;
 
   // Log (newest first)
   $('log').innerHTML = recs.slice().reverse().map(r => {
