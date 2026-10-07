@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.6
+/* Tank Manager PWA v1.7
  * Reads tank_water_log.csv (fixed 22-column schema) and shows status,
  * recommendation, latest readings (tap a tile for its detail card and 14-day trend), and the test log.
  */
@@ -132,6 +132,169 @@ const CYCLE_STEPS = [
       'Nutrient-rich plant soil can release some'
     ],
     note: 'Removed by water changes and soaked up by live plants as fertilizer.'
+  }
+];
+
+/* How-to guides (v1.7). Opened from the How-to button in the header.
+ * Written for T40-FW: 40 gal, Oase canister with built-in heater, plant soil under sand,
+ * driftwood, tap water with chlorine, Continuum Fraction conditioner, Nite-Out II. */
+const HOWTO = [
+  {
+    id: 'water-change', title: 'Do a 25% water change', time: '20–30 min',
+    when: 'When a test calls for it (ammonia or nitrite 0.25 or more, KH under 60), and about once a week after the tank is cycled.',
+    need: ['Siphon / gravel vac and a bucket (about 10 gal total for 25%)', 'Continuum Fraction (4 ml)', 'Thermometer, or your hand on the glass'],
+    steps: [
+      'Unplug the canister filter (the heater is built into it) so it does not suck air while the water is low.',
+      'Siphon out about 10 gallons (25%). Hold the vac just above the sand and skim the surface. Do not push into the soil layer or near the root-tab spots.',
+      'Pick up any dead leaves or uneaten food while the siphon is running.',
+      'Run the new tap water at about the same temperature as the tank (within 2°F). Check it with your hand or a thermometer.',
+      'Add 4 ml of Fraction to the tank. This treats the whole 40 gal, so do it even if you only change 25%. It takes care of chlorine from the tap.',
+      'Refill slowly. Pour onto the driftwood or a plate so the sand is not stirred up.',
+      'Plug the canister back in. Check that water is flowing and the heater is running.',
+      'For a 50% change, do two 25% changes a few hours apart. A big change all at once makes pH jump.',
+      'Tell the team how much you changed so it goes in the log.'
+    ],
+    tip: 'Never skip the Fraction. Your tap has chlorine, and chlorine kills the filter bacteria.'
+  },
+  {
+    id: 'test', title: 'Test the water (strips)', time: '5 min',
+    when: 'Every morning while the tank is cycling. Test before feeding and before dosing anything.',
+    need: ['Test strips', 'Separate ammonia test', 'Clean cup', 'Phone timer'],
+    steps: [
+      'Take a sample from the middle of the tank in a clean cup, not right next to the filter outlet.',
+      'Dip the strip as the box says (usually 1–2 seconds), then hold it flat. Do not shake it.',
+      'Read each pad at the time the box says. Read in daylight or good white light; yellow kitchen light shifts the colors.',
+      'If a color falls between two pads, write both (for example "0.25–0.5"). The team will log the higher one.',
+      'Run the ammonia test as its own instructions say.',
+      'Read the thermometer.',
+      'Send everything to the team: temp, pH, ammonia, nitrite, nitrate, GH, KH, chlorine. KH matters every time right now.'
+    ],
+    tip: 'Strips are rough. A liquid kit (like the API Freshwater Master Kit) tells 0.25 from 0.5 much better.'
+  },
+  {
+    id: 'nite-out', title: 'Dose Nite-Out II', time: '1 min',
+    when: 'Once a day while cycling, after testing and after any water change.',
+    need: ['Microbe-Lift Nite-Out II', 'Measuring cup or syringe'],
+    steps: [
+      'Shake the bottle.',
+      'Measure 20 ml.',
+      'Pour it near the filter intake so it gets pulled into the canister, where the bacteria live.',
+      'Leave the filter running. The bacteria need oxygen.'
+    ],
+    tip: 'Do not dose it right before a water change, or you siphon half of it out.'
+  },
+  {
+    id: 'spike', title: 'Ammonia or nitrite spike', time: 'Same day',
+    when: 'Ammonia or nitrite at 0.5 or higher, or fish gasping at the surface.',
+    need: ['Continuum Fraction', 'Water change gear'],
+    steps: [
+      'Do not feed today.',
+      'Dose 4 ml of Fraction right away. It locks up ammonia for about a day while you get ready. It does not remove nitrite.',
+      'Do a 25% water change (see "Do a 25% water change").',
+      'Wait a few hours, then do a second 25% change.',
+      'Dose Nite-Out II after the second change.',
+      'Retest the next morning. If it is still 0.5 or higher, repeat.',
+      'If fish are gasping, lying on the bottom, or have red gills, do the first water change now. Do not wait.'
+    ],
+    tip: 'Water changes raise pH. At higher pH, ammonia turns more toxic, so always dose Fraction with the change.'
+  },
+  {
+    id: 'kh', title: 'Raise KH (low KH)', time: '10 min + water change',
+    when: 'KH under 60. Under 40 is urgent: pH can crash suddenly.',
+    need: ['Crushed coral (about 1 cup)', 'Mesh media bag', 'Water change gear'],
+    steps: [
+      'Fast fix: do a 25% water change. Your tap is KH 180, so each change lifts the tank about 35–40.',
+      'Long-term fix: rinse about 1 cup of crushed coral in a bucket of old tank water.',
+      'Put it in a mesh bag and tie it shut.',
+      'Turn off and open the canister (see "Rinse the canister media" for opening). Put the bag in a tray where water flows through it.',
+      'Close it up, restart, and check for leaks.',
+      'Test KH every morning. The coral works slowly over 1–2 weeks. If KH climbs over about 150, take some coral out.'
+    ],
+    tip: 'Your plant soil and the bacteria both use up KH, so it drops faster than in most tanks.'
+  },
+  {
+    id: 'filter', title: 'Rinse the canister media', time: '20 min',
+    when: 'Only when the flow is clearly weaker. Not while the tank is cycling unless flow has nearly stopped. Most of your bacteria live in there.',
+    need: ['Bucket of OLD tank water (from a water change)', 'Towel'],
+    steps: [
+      'Siphon a bucket of tank water first. Do not use tap water: chlorine kills the bacteria.',
+      'Unplug the canister (the heater is in it too).',
+      'Close the hose valves or lift the hoses so the water stays in them, then disconnect.',
+      'Open the canister and lift out the media trays.',
+      'Swish the sponges and pads in the bucket and squeeze them a few times. They should still look a bit brown. Do not try to get them clean.',
+      'Leave the biological media (rings or balls) alone, or just dunk them once.',
+      'Put everything back the same way and reconnect the hoses.',
+      'Plug it in. Check for leaks and air. Tilt or shake it gently to clear air bubbles.',
+      'Check the heater is on and the temperature is right in an hour.'
+    ],
+    tip: 'Never replace all the media at once, and never let it dry out or sit switched off for more than an hour.'
+  },
+  {
+    id: 'feed', title: 'Feed during the cycle', time: '1 min',
+    when: 'Once a day. Skip days when ammonia or nitrite is 0.5 or higher.',
+    need: ['Flake or micro pellet food'],
+    steps: [
+      'Feed after testing and dosing, not before.',
+      'Drop in a small pinch, enough for 7 small fish.',
+      'Watch for 1 minute. It should all be gone.',
+      'If food reaches the bottom, use less next time. Remove leftovers with the siphon or a net.'
+    ],
+    tip: 'Every flake that is not eaten turns into ammonia. Underfeeding is safer than overfeeding right now.'
+  },
+  {
+    id: 'plants', title: 'Plant care', time: '10–15 min',
+    when: 'Weekly check. Trim when a plant reaches the surface or blocks light.',
+    need: ['Long tweezers or tongs', 'Scissors', 'Root tabs (only every 2–3 months)'],
+    steps: [
+      'Pull off yellow, brown, or melting leaves at the base. Rotting leaves become ammonia.',
+      'If a plant floated up, push the roots back into the sand with tweezers until the base is covered.',
+      'Trim stem plants by cutting the top part off. You can replant the cuttings.',
+      'Root tabs: push them deep into the sand next to the roots, fully covered. An exposed tab leaks nutrients and grows algae.',
+      'Your soil is already rich, so the next root tabs are due around early 2027.',
+      'Net out any floating bits after you trim.'
+    ],
+    tip: 'Some new plants "melt" (lose leaves) for a few weeks while they adjust. Remove the dead leaves; new ones usually grow back.'
+  },
+  {
+    id: 'glass', title: 'Clean the glass', time: '5 min',
+    when: 'When algae makes the glass hazy, usually weekly. Do it before a water change.',
+    need: ['Algae scraper or magnet cleaner'],
+    steps: [
+      'Make sure no sand is stuck under the scraper. It will scratch the glass.',
+      'Scrape the inside glass top to bottom.',
+      'Do it right before a water change so the siphon picks up what falls off.',
+      'Wipe the outside with a damp cloth. Do not spray glass cleaner near the tank.'
+    ],
+    tip: 'Lots of green on the glass usually means too much light or extra nutrients. Keep the light on about 8 hours a day.'
+  },
+  {
+    id: 'new-fish', title: 'Add new fish', time: '45–60 min',
+    when: 'Only after the tank is cycled (the app shows "Cycled"). Add a few at a time.',
+    need: ['Bag of fish', 'Clean cup', 'Net'],
+    steps: [
+      'Test first. Ammonia and nitrite should both be 0.',
+      'Turn the tank light off. It calms new fish.',
+      'Float the sealed bag on the water for 15 minutes so the temperature matches.',
+      'Open the bag. Add about half a cup of tank water to it every 5 minutes, 4–5 times.',
+      'Net the fish into the tank. Do not pour store water into your tank.',
+      'Leave the light off for the rest of the day and feed lightly.',
+      'Test the next 2–3 mornings. New fish add waste, so ammonia can bump up.',
+      'Tell the team the new fish count and species.'
+    ],
+    tip: 'Add no more than 3–4 small fish at a time and give the bacteria a week to catch up.'
+  },
+  {
+    id: 'outage', title: 'Power outage', time: 'As needed',
+    when: 'The filter and heater are off for more than an hour.',
+    need: ['Bucket', 'Blanket or towel'],
+    steps: [
+      'Do not feed while the power is out.',
+      'Wrap the tank in a blanket to hold heat.',
+      'Every hour, scoop a cup of water and pour it back from a height to add oxygen.',
+      'If the power was off more than 4–6 hours, the water inside the canister can go bad. Before restarting, rinse the media in tank water and dump the old water from inside the canister.',
+      'When power returns, check the heater, then test ammonia and nitrite the next morning.'
+    ],
+    tip: 'A battery air pump is a cheap backup for longer outages.'
   }
 ];
 
@@ -563,8 +726,33 @@ function fillLearn() {
     '<li><b>Stage 2 — Nitrite rises, ammonia falls.</b> Ammonia eaters have grown; nitrite eaters are catching up. This stage usually lasts longest.</li>' +
     '<li><b>Stage 3 — Ammonia and nitrite at 0, nitrate rising.</b> Both groups keep up. When this holds for about a week of daily tests, the tank is cycled.</li>' +
     '</ol><p>It usually takes 2–6 weeks. With fish in the tank, water changes keep ammonia and nitrite at 0.25 ppm or lower while the bacteria catch up.</p>' +
+    '<button type="button" class="link-btn" data-open="howto">How-to guides: water changes, testing, spikes →</button>' +
     '<button type="button" class="btn close-wide" data-close>Close</button>';
 
+  document.querySelectorAll('#detailBody [data-close]').forEach(b => b.addEventListener('click', closeDetail));
+  document.querySelectorAll('#detailBody [data-open]').forEach(b => b.addEventListener('click', () => switchDetail(b.dataset.open)));
+}
+
+function fillHowto() {
+  const items = HOWTO.map(h =>
+    `<details class="howto" id="howto-${h.id}"><summary><span class="ht-title">${esc(h.title)}</span><span class="ht-time">${esc(h.time)}</span></summary>` +
+    `<div class="ht-body"><p class="ht-when"><b>When:</b> ${esc(h.when)}</p>` +
+    `<p class="step-sub">You need</p><ul>${h.need.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` +
+    `<p class="step-sub">Steps</p><ol class="ht-steps">${h.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>` +
+    (h.tip ? `<p class="ht-tip"><b>Tip:</b> ${esc(h.tip)}</p>` : '') +
+    '</div></details>'
+  ).join('');
+  document.getElementById('detailTitle').textContent = 'How-to';
+  document.getElementById('detailBody').innerHTML =
+    '<p class="lead">Step-by-step guides for common jobs on your tank. Tap one to open it.</p>' + items +
+    '<button type="button" class="link-btn" data-open="learn">How the nitrogen cycle works →</button>' +
+    '<button type="button" class="btn close-wide" data-close>Close</button>';
+  // One guide open at a time keeps the list short on a phone.
+  document.querySelectorAll('#detailBody details.howto').forEach(d => d.addEventListener('toggle', () => {
+    if (!d.open) return;
+    document.querySelectorAll('#detailBody details.howto').forEach(o => { if (o !== d) o.open = false; });
+    d.scrollIntoView({ block: 'nearest' });
+  }));
   document.querySelectorAll('#detailBody [data-close]').forEach(b => b.addEventListener('click', closeDetail));
   document.querySelectorAll('#detailBody [data-open]').forEach(b => b.addEventListener('click', () => switchDetail(b.dataset.open)));
 }
@@ -579,6 +767,7 @@ function switchDetail(key) {
 
 function fillDetail(key) {
   if (key === 'learn') return fillLearn();
+  if (key === 'howto') return fillHowto();
   const p = PARAMS.find(x => x.key === key);
   const info = INFO[key];
   if (!p || !info) return;
@@ -709,6 +898,7 @@ async function load() {
 if (typeof document !== 'undefined') {
   document.getElementById('refreshBtn').addEventListener('click', load);
   document.getElementById('learnBtn').addEventListener('click', () => openDetail('learn'));
+  document.getElementById('howtoBtn').addEventListener('click', () => openDetail('howto'));
   document.getElementById('detailClose').addEventListener('click', closeDetail);
   document.getElementById('detail').addEventListener('click', e => { if (e.target.id === 'detail') closeDetail(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && OPEN_DETAIL) closeDetail(); });
