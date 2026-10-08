@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.7
+/* Tank Manager PWA v1.8
  * Reads tank_water_log.csv (fixed 22-column schema) and shows status,
  * recommendation, latest readings (tap a tile for its detail card and 14-day trend), and the test log.
  */
@@ -17,13 +17,13 @@ const STORE_KEY = 'tank_csv_v1';
 const PARAMS = [
   { key: 'temp_f', label: 'Temperature', desc: 'Water temperature', unit: '°F', okLow: 76, okHigh: 80, dangerLow: 74, dangerHigh: 82 },
   { key: 'ph', label: 'pH', desc: 'Acid / base balance', unit: '', okLow: 6.5, okHigh: 7.8, dangerLow: 6.0, dangerHigh: 8.2 },
-  { key: 'ammonia_ppm', label: 'Ammonia', desc: 'Fish waste - toxic', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 4 },
+  { key: 'ammonia_ppm', label: 'Ammonia nitrogen', desc: 'Fish waste - toxic', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 4 },
   { key: 'nitrite_ppm', label: 'Nitrite', desc: 'Breakdown of ammonia - toxic', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 5 },
   { key: 'nitrate_ppm', label: 'Nitrate', desc: 'End product - remove with water changes', unit: 'ppm', okHigh: 20, dangerHigh: 40 },
-  { key: 'kh_ppm', label: 'Alkalinity (KH)', desc: 'Carbonate hardness - keeps pH steady', unit: 'ppm', okLow: 60, dangerLow: 40 },
-  { key: 'gh_ppm', label: 'Water hardness (GH)', desc: 'General hardness - calcium and magnesium', unit: 'ppm' },
-  { key: 'free_chlorine_ppm', label: 'Free chlorine', desc: 'From tap water - toxic', unit: 'ppm', okHigh: 0 },
-  { key: 'nacl_ppm', label: 'Salt (NaCl)', desc: 'Aquarium salt level', unit: 'ppm' }
+  { key: 'kh_ppm', label: 'Total Alkalinity (KH)', desc: 'Carbonate hardness - keeps pH steady', unit: 'ppm', okLow: 60, dangerLow: 40 },
+  { key: 'gh_ppm', label: 'Hardness (GH)', desc: 'General hardness - calcium and magnesium', unit: 'ppm' },
+  { key: 'free_chlorine_ppm', label: 'Free Chlorine', desc: 'From tap water - toxic', unit: 'ppm', okHigh: 0 },
+  { key: 'nacl_ppm', label: 'Sodium Chloride (NaCl)', desc: 'Salt level', unit: 'ppm' }
 ];
 
 /* Plain-language explainers shown when a reading tile is tapped (v1.2).
@@ -164,10 +164,10 @@ const HOWTO = [
       'Take a sample from the middle of the tank in a clean cup, not right next to the filter outlet.',
       'Dip the strip as the box says (usually 1–2 seconds), then hold it flat. Do not shake it.',
       'Read each pad at the time the box says. Read in daylight or good white light; yellow kitchen light shifts the colors.',
-      'If a color falls between two pads, write both (for example "0.25–0.5"). The team will log the higher one.',
+      'If a color falls between two pads, write both (for example "40–80"). The team will log a value in between. Nitrite jumps from 0 straight to 1 on this strip, so any pink at all means nitrite is present.',
       'Run the ammonia test as its own instructions say.',
       'Read the thermometer.',
-      'Send everything to the team: temp, pH, ammonia, nitrite, nitrate, GH, KH, chlorine. KH matters every time right now.'
+      'Send everything to the team, using the names on the strip: Free Chlorine, Nitrate, Nitrite, Hardness (GH), Total Alkalinity (KH), pH, Sodium Chloride, Ammonia nitrogen, plus the temperature. Total Alkalinity matters every time right now.'
     ],
     tip: 'Strips are rough. A liquid kit (like the API Freshwater Master Kit) tells 0.25 from 0.5 much better.'
   },
