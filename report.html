@@ -47,6 +47,12 @@
     .photo figcaption { font-size: .85rem; color: var(--muted); margin-top: 6px; }
     .photo-missing { border: 2px dashed var(--line); border-radius: 14px; padding: 28px 16px; text-align: center; color: var(--muted); margin-top: 16px; }
 
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+    .gallery figure { margin: 0; }
+    .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); display: block; }
+    .gallery a { display: block; }
+    .gallery figcaption { font-size: .78rem; color: var(--muted); margin-top: 4px; line-height: 1.35; }
+    @media (max-width: 560px) { .gallery { grid-template-columns: 1fr; } }
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; }
     .stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
     .stat .k { font-size: .75rem; color: var(--muted); }
@@ -121,6 +127,7 @@
     </figure>
     <div class="photo-missing" id="photoMissing" hidden>Tank photo coming soon.</div>
     <div class="stats" id="stats"></div>
+    <div class="gallery" id="gallery" hidden></div>
   </header>
 
   <div id="errors"></div>
@@ -354,12 +361,20 @@ async function main() {
   const pl = profile.plants || {};
   $('plants').innerHTML = `<p><b>${esc(pl.count || '—')}</b></p>` +
     (pl.species && pl.species.length
-      ? `<ul class="plain">${pl.species.map(s => `<li>${typeof s === 'string' ? esc(s) : `${esc(s.name)}${s.count ? ` (${esc(s.count)})` : ''}`}</li>`).join('')}</ul>`
-      : `<p class="muted small">${esc(pl.species_note || 'Species not listed yet.')}</p>`);
+      ? `<ul class="plain">${pl.species.map(s => `<li>${typeof s === 'string' ? esc(s) : `<b>${esc(s.name)}</b>${s.count ? ` (${esc(s.count)})` : ''}${s.note ? ` <span class="muted">— ${esc(s.note)}</span>` : ''}`}</li>`).join('')}</ul>`
+      : '') + `<p class="muted small">${esc(pl.species_note || (pl.species && pl.species.length ? '' : 'Species not listed yet.'))}</p>`;
+
+  // Gallery
+  const gal = profile.gallery || [];
+  if (gal.length) {
+    $('gallery').hidden = false;
+    $('gallery').innerHTML = gal.map(g => `<figure><a href="${esc(g.file)}" target="_blank" rel="noopener"><img src="${esc(g.file)}" alt="${esc(g.caption || 'Tank photo')}" loading="lazy"></a>${g.caption ? `<figcaption>${esc(g.caption)}</figcaption>` : ''}</figure>`).join('');
+  }
 
   // Hardscape
   $('hardscape').innerHTML = `<ul class="plain">${(profile.hardscape || []).map(h =>
-    `<li><b>${esc(h.item)}</b>${h.note ? ` <span class="muted">— ${esc(h.note)}</span>` : ''}</li>`).join('')}</ul>`;
+    `<li><b>${esc(h.item)}</b>${h.note ? ` <span class="muted">— ${esc(h.note)}</span>` : ''}</li>`).join('')}</ul>` +
+    (profile.other_life ? `<p class="small" style="margin-top:10px"><b>Also living here:</b> ${esc(profile.other_life)}</p>` : '');
 
   // Setup
   $('setup').innerHTML = (profile.setup || []).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');

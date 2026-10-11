@@ -5,50 +5,185 @@
   "title": "40-gallon planted community tank",
   "photo": {
     "file": "tank_photo.jpg",
-    "date": null,
-    "caption": null
+    "date": "2026-10-11",
+    "caption": "Full tank, day 9 of the cycle. The haze is a bacterial bloom that is clearing."
   },
   "setup": [
-    ["Volume", "40 US gallons, freshwater"],
-    ["Filter / heat", "Oase canister filter with built-in heater"],
-    ["Substrate", "Nutrient plant soil capped with sand"],
-    ["Water source", "Chlorinated city tap water (tap: pH 7.8, KH 180, GH 125)"],
-    ["Conditioner", "Continuum Aquatics Fraction, 4 ml per water change"],
-    ["Bacteria starter", "Microbe-Lift Nite-Out II, 20 ml daily during the cycle"],
-    ["Plant food", "Zeolite root tabs at each plant base (added 10/07)"],
-    ["Testing", "8-in-1 test strips plus a separate ammonia test. Strip readings are color estimates; the strip's nitrite scale steps 0, 1, 5, 10 ppm."]
+    [
+      "Volume",
+      "40 US gallons, freshwater"
+    ],
+    [
+      "Filter / heat",
+      "Oase canister filter with built-in heater"
+    ],
+    [
+      "Substrate",
+      "Nutrient plant soil capped with sand"
+    ],
+    [
+      "Water source",
+      "Chlorinated city tap water (tap: pH 7.8, KH 180, GH 125)"
+    ],
+    [
+      "Conditioner",
+      "Continuum Aquatics Fraction, 4 ml per water change"
+    ],
+    [
+      "Bacteria starter",
+      "Microbe-Lift Nite-Out II, 20 ml daily during the cycle"
+    ],
+    [
+      "Plant food",
+      "Zeolite root tabs at each plant base (added 10/07)"
+    ],
+    [
+      "Testing",
+      "8-in-1 test strips plus a separate ammonia test. Strip readings are color estimates; the strip's nitrite scale steps 0, 1, 5, 10 ppm."
+    ]
   ],
   "fish": [
-    { "name": "Zebra danio", "latin": "Danio rerio", "count": null, "note": "4 added 10/04; more added 10/10" },
-    { "name": "Platy", "latin": "Xiphophorus maculatus", "count": null, "note": "3 added 10/04; more added 10/10" },
-    { "name": "Angelfish", "latin": "Pterophyllum scalare", "count": null, "note": "At least 1, added 10/10" },
-    { "name": "Dwarf gourami", "latin": "Trichogaster lalius", "count": 2, "note": "Added 10/10" }
+    {
+      "name": "Zebra danio",
+      "latin": "Danio rerio",
+      "count": null,
+      "note": "4 added 10/04; more added 10/10"
+    },
+    {
+      "name": "Platy",
+      "latin": "Xiphophorus maculatus",
+      "count": null,
+      "note": "3 added 10/04; more added 10/10"
+    },
+    {
+      "name": "Angelfish",
+      "latin": "Pterophyllum scalare",
+      "count": null,
+      "note": "At least 1, added 10/10"
+    },
+    {
+      "name": "Dwarf gourami",
+      "latin": "Trichogaster lalius",
+      "count": 2,
+      "note": "Added 10/10"
+    }
   ],
-  "fish_total_note": "Up to about 19 fish in total. Exact count by species still being confirmed.",
+  "fish_total_note": "Up to about 19 fish in total. Exact count by species still being confirmed. One fish is white with black spots (dalmatian platy or molly?).",
   "plants": {
     "count": "About 11 to 15 plants of varying sizes",
-    "species": [],
-    "species_note": "Species list to come."
+    "species": [
+      {
+        "name": "Java fern",
+        "note": "several, including the narrow wavy-leaf type"
+      },
+      {
+        "name": "Amazon sword",
+        "note": "the broad bright-green rosettes"
+      },
+      {
+        "name": "Cryptocoryne (likely wendtii)",
+        "note": "green and brown-red; some leaves melting since replanting"
+      },
+      {
+        "name": "Anubias",
+        "note": "broad dark leaves by the driftwood"
+      },
+      {
+        "name": "Alternanthera reineckii (likely)",
+        "note": "red-pink stem plant, back right"
+      },
+      {
+        "name": "Fine-leaved stem plant",
+        "note": "front right; type to be confirmed"
+      },
+      {
+        "name": "Moss (likely Java moss)",
+        "note": "on the driftwood"
+      },
+      {
+        "name": "Floating plants (likely red root floaters)",
+        "note": "across the surface"
+      }
+    ],
+    "species_note": "Names are from the photo and not yet confirmed. Corrections welcome!"
   },
   "hardscape": [
-    { "item": "Driftwood", "note": null },
-    { "item": "Rock", "note": "Type to be added." }
+    {
+      "item": "Driftwood",
+      "note": "reddish-brown wood; type unknown. White fuzz on parts of it (see close-ups)."
+    },
+    {
+      "item": "Rock",
+      "note": "large grey holey rock, back right; type unknown (Seiryu-style?)."
+    },
+    {
+      "item": "River pebbles",
+      "note": "a few smooth stones on the sand"
+    },
+    {
+      "item": "Ornaments",
+      "note": "glass octopus figure; ship ornament at the back"
+    }
   ],
   "timeline": [
-    ["10/03", "Cycle started. First Nite-Out II dose; no fish."],
-    ["10/04", "First fish: 4 zebra danios and 3 platys (switched to a fish-in cycle)."],
-    ["10/05", "KH dropped 80 to 40 and pH 6.8 to 6.2 overnight."],
-    ["10/06", "First ammonia and nitrite readings (0.5 ppm each)."],
-    ["10/07", "50% water change. Plants re-anchored, root tabs added. Nitrite back to 0; KH back to 80."],
-    ["10/08", "KH and pH dropped again overnight (80 to 40, 7.2 to 6.2)."],
-    ["10/09", "Milky water (bacterial bloom). KH 80 and pH 6.8 held for two days."],
-    ["10/10", "About 12 more fish added mid-cycle, not quarantined. KH and pH dropped again that evening."],
-    ["10/11", "Ammonia and nitrite still 0 the morning after. KH 40, pH 6.2."]
+    [
+      "10/03",
+      "Cycle started. First Nite-Out II dose; no fish."
+    ],
+    [
+      "10/04",
+      "First fish: 4 zebra danios and 3 platys (switched to a fish-in cycle)."
+    ],
+    [
+      "10/05",
+      "KH dropped 80 to 40 and pH 6.8 to 6.2 overnight."
+    ],
+    [
+      "10/06",
+      "First ammonia and nitrite readings (0.5 ppm each)."
+    ],
+    [
+      "10/07",
+      "50% water change. Plants re-anchored, root tabs added. Nitrite back to 0; KH back to 80."
+    ],
+    [
+      "10/08",
+      "KH and pH dropped again overnight (80 to 40, 7.2 to 6.2)."
+    ],
+    [
+      "10/09",
+      "Milky water (bacterial bloom). KH 80 and pH 6.8 held for two days."
+    ],
+    [
+      "10/10",
+      "About 12 more fish added mid-cycle, not quarantined. KH and pH dropped again that evening."
+    ],
+    [
+      "10/11",
+      "Ammonia and nitrite still 0 the morning after. KH 40, pH 6.2."
+    ]
   ],
   "questions": [
     "KH and pH keep dropping overnight (KH 80 to 40, pH 6.8 to 6.2) even though the tap water is KH 180, pH 7.8. We think the plant soil and driftwood are pulling them down. Crushed coral is on order. What else has worked for you?",
     "Stocking: zebra danios, platys, angelfish, and two dwarf gouramis in a 40-gallon, added while the tank is still cycling. Any compatibility or overstocking concerns?",
     "Nitrate has read 0 for three days in a heavily planted tank. Normal with this many plants, or a strip problem?",
-    "GH swings between 50 and 125 on the strips. Has anyone seen strips this jumpy?"
-  ]
+    "White cottony fuzz is growing on parts of the driftwood (see the close-ups). We're treating it as the usual new-wood biofilm and leaving it. Agree? Anything that would eat it in this stocking?",
+    "GH swings between 50 and 125 on the strips. Has anyone seen strips this jumpy?",
+    "Can anyone identify the plants and the grey holey rock? If the rock is a Seiryu-type stone it should push KH up, not down, which makes the KH drops more puzzling."
+  ],
+  "gallery": [
+    {
+      "file": "photo_driftwood_1.jpg",
+      "caption": "White, cottony fuzz and some stringy growth on the driftwood."
+    },
+    {
+      "file": "photo_driftwood_2.jpg",
+      "caption": "Another view of the driftwood: same white fuzz, plus fine reddish hairs near the anubias."
+    },
+    {
+      "file": "photo_gourami.jpg",
+      "caption": "One of the dwarf gouramis on its first full day in the tank. Behind it: a zebra danio, melting crypt leaves, and a small snail."
+    }
+  ],
+  "other_life": "Small snails (hitchhikers on the plants; type unknown)."
 }
