@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.10
+/* Tank Manager PWA v1.11
  * Reads tank_water_log.csv (fixed 22-column schema) and shows status,
  * recommendation, latest readings (tap a tile for its detail card and 14-day trend), and the test log.
  */

@@ -19,9 +19,12 @@
       <p id="tankSub" class="muted">Loading…</p>
     </div>
     <div class="top-actions">
-      <button id="howtoBtn" type="button" class="learn-btn" aria-label="How-to guides">How-to</button>
-      <button id="learnBtn" type="button" class="learn-btn" aria-label="Learn: the nitrogen cycle">Learn</button>
-      <button id="refreshBtn" class="icon-btn" aria-label="Reload data" title="Reload data">⟳</button>
+      <div class="btn-row">
+        <button id="howtoBtn" type="button" class="learn-btn" aria-label="How-to guides">How-to</button>
+        <button id="learnBtn" type="button" class="learn-btn" aria-label="Learn: the nitrogen cycle">Learn</button>
+        <button id="refreshBtn" class="icon-btn" aria-label="Reload data" title="Reload data">⟳</button>
+      </div>
+      <a class="report-link top-report" href="report.html">Tank report (shareable) →</a>
     </div>
   </header>
   <nav id="tankSwitch" class="switch" aria-label="Choose tank" hidden></nav>
@@ -53,9 +56,8 @@
       Load CSV from phone
       <input id="fileInput" type="file" accept=".csv,text/csv" hidden>
     </label>
-    <p class="small"><a class="report-link" href="report.html">Tank report (shareable) →</a></p>
     <p id="source" class="muted small"></p>
-    <p class="muted small">App v1.10</p>
+    <p class="muted small">App v1.11</p>
   </footer>
 
   <div id="detail" class="sheet-wrap" hidden>
