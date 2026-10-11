@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tank Report · T40-FW</title>
+  <meta name="description" content="40-gallon planted freshwater tank: fish, plants, setup, and the last 14 days of water tests.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tank Report · 40-gallon planted community tank">
+  <meta property="og:description" content="Fish, plants, setup, and the last 14 days of water tests. Looking for advice!">
+  <meta property="og:url" content="https://cartoticus.github.io/Tank-Manager/report.html">
+  <meta property="og:image" content="https://cartoticus.github.io/Tank-Manager/tank_photo.jpg">
+  <meta name="theme-color" content="#0f6e74">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #f4f7f7; --card: #ffffff; --text: #15202b; --muted: #5d6b75; --line: #dde4e6;
+      --brand: #0f6e74; --ok: #1f9d55; --ok-bg: #e3f5ea; --watch: #b7791f; --watch-bg: #fdf3dc;
+      --action: #c53030; --action-bg: #fde4e4; --series: #0f6e74; --grid: #eef2f3;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0d1418; --card: #162127; --text: #e6edf0; --muted: #93a3ad; --line: #2a3840;
+        --brand: #4fc3c9; --ok: #48bb78; --ok-bg: #173325; --watch: #ecc94b; --watch-bg: #3a3014;
+        --action: #fc8181; --action-bg: #3d1c1c; --series: #4fc3c9; --grid: #1d2a31;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0d1418; --card: #162127; --text: #e6edf0; --muted: #93a3ad; --line: #2a3840;
+      --brand: #4fc3c9; --ok: #48bb78; --ok-bg: #173325; --watch: #ecc94b; --watch-bg: #3a3014;
+      --action: #fc8181; --action-bg: #3d1c1c; --series: #4fc3c9; --grid: #1d2a31;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { background: var(--bg); color: var(--text); font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px 40px; }
+    header.hero { padding: 24px 0 8px; }
+    .eyebrow { font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--brand); font-weight: 700; }
+    h1 { font-size: 1.6rem; line-height: 1.2; margin: 4px 0 6px; }
+    h2 { font-size: 1.15rem; margin: 32px 0 10px; }
+    p { margin: 6px 0; }
+    .muted { color: var(--muted); }
+    .small { font-size: .85rem; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+    .photo { margin: 16px 0 0; }
+    .photo img { width: 100%; height: auto; display: block; border-radius: 14px; border: 1px solid var(--line); }
+    .photo figcaption { font-size: .85rem; color: var(--muted); margin-top: 6px; }
+    .photo-missing { border: 2px dashed var(--line); border-radius: 14px; padding: 28px 16px; text-align: center; color: var(--muted); margin-top: 16px; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+    .stat .k { font-size: .75rem; color: var(--muted); }
+    .stat .v { font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
+    @media (max-width: 560px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+    .badge { display: inline-block; font-weight: 700; font-size: .75rem; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; vertical-align: middle; }
+    .badge.OK { background: var(--ok-bg); color: var(--ok); }
+    .badge.WATCH { background: var(--watch-bg); color: var(--watch); }
+    .badge.ACTION { background: var(--action-bg); color: var(--action); }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: .75rem; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); font-weight: 600; }
+    tr:last-child td { border-bottom: 0; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .latin { font-style: italic; color: var(--muted); font-size: .85rem; }
+    .tbl { padding: 4px 6px; overflow-x: auto; }
+    dl.kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 0; }
+    dl.kv dt { color: var(--muted); font-size: .9rem; }
+    dl.kv dd { margin: 0; }
+    @media (max-width: 480px) { dl.kv { grid-template-columns: 1fr; gap: 0; } dl.kv dd { margin-bottom: 8px; } }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
+    ul.plain { margin: 0; padding-left: 20px; }
+    ul.plain li { margin-bottom: 4px; }
+    .tl { list-style: none; margin: 0; padding: 0; }
+    .tl li { display: grid; grid-template-columns: 52px 1fr; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+    .tl li:last-child { border-bottom: 0; }
+    .tl b { font-variant-numeric: tabular-nums; color: var(--brand); }
+
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 700px) { .charts { grid-template-columns: 1fr; } }
+    .chart h3 { font-size: 1rem; margin: 0; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .chart h3 span { font-size: .8rem; color: var(--muted); font-weight: 400; }
+    .chart .range { font-size: .8rem; color: var(--muted); margin: 2px 0 4px; }
+    .chart svg { width: 100%; height: auto; display: block; }
+    .chart svg text { font-family: inherit; }
+    .chart .ax { fill: var(--muted); font-size: 10px; }
+    .chart .lbl { fill: var(--text); font-size: 10.5px; font-weight: 600; paint-order: stroke; stroke: var(--card); stroke-width: 3px; stroke-linejoin: round; }
+    .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: .82rem; color: var(--muted); margin: 0 0 10px; }
+    .legend i { display: inline-block; vertical-align: middle; margin-right: 5px; }
+    .legend .ln { width: 18px; height: 0; border-top: 2px dashed var(--ok); }
+    .legend .ln.d { border-top: 2px solid var(--action); }
+    .legend .dt { width: 9px; height: 9px; border-radius: 50%; }
+    ol.q { margin: 0; padding-left: 22px; }
+    ol.q li { margin-bottom: 10px; }
+    details.raw summary { cursor: pointer; font-weight: 600; color: var(--brand); padding: 4px 0; }
+    .raw table { font-size: .82rem; }
+    .raw th, .raw td { padding: 6px 7px; }
+    footer { margin-top: 32px; font-size: .82rem; color: var(--muted); text-align: center; }
+    footer a, .back { color: var(--brand); }
+    .back { font-size: .9rem; text-decoration: none; display: inline-block; padding-top: 14px; }
+    .err { background: var(--action-bg); border-color: var(--action); }
+    @media print {
+      body { background: #fff; }
+      .back, details.raw summary { display: none; }
+      .card, .stat { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./">← Back to the app</a>
+  <header class="hero">
+    <div class="eyebrow" id="eyebrow">Tank report</div>
+    <h1 id="title">40-gallon planted community tank</h1>
+    <p class="muted" id="sub">Loading…</p>
+    <figure class="photo" id="photo" hidden>
+      <img id="photoImg" alt="Photo of the tank">
+      <figcaption id="photoCap"></figcaption>
+    </figure>
+    <div class="photo-missing" id="photoMissing" hidden>Tank photo coming soon.</div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div id="errors"></div>
+
+  <h2>Fish</h2>
+  <div class="card tbl"><table id="fishTable"></table></div>
+  <p class="small muted" id="fishNote"></p>
+
+  <div class="two" style="margin-top:20px">
+    <section>
+      <h2 style="margin-top:12px">Plants</h2>
+      <div class="card" id="plants"></div>
+    </section>
+    <section>
+      <h2 style="margin-top:12px">Hardscape</h2>
+      <div class="card" id="hardscape"></div>
+    </section>
+  </div>
+
+  <h2>Setup and routine</h2>
+  <div class="card"><dl class="kv" id="setup"></dl></div>
+
+  <h2>Water tests, last 14 days</h2>
+  <div class="legend">
+    <span><i class="ln"></i>Normal range</span>
+    <span><i class="ln d"></i>Danger line</span>
+    <span><i class="dt" style="background:var(--ok)"></i>OK</span>
+    <span><i class="dt" style="background:var(--watch)"></i>Watch</span>
+    <span><i class="dt" style="background:var(--action)"></i>Action</span>
+  </div>
+  <div class="charts" id="charts"></div>
+  <details class="raw card" style="margin-top:12px">
+    <summary>All readings as a table</summary>
+    <div class="tbl" id="rawTable"></div>
+  </details>
+
+  <h2>What's happened so far</h2>
+  <div class="card"><ol class="tl" id="timeline"></ol></div>
+
+  <h2>Questions for experienced keepers</h2>
+  <div class="card"><ol class="q" id="questions"></ol></div>
+
+  <footer>
+    <p id="foot"></p>
+    <p>Made with Tank Manager · <a href="./">open the app</a></p>
+  </footer>
+</div>
+
+<script>
+'use strict';
+const DAYS = 14;
+
+/* Same thresholds as the app (freshwater, fish present). */
+const PARAMS = [
+  { key: 'ammonia_ppm', label: 'Ammonia nitrogen', unit: 'ppm', okHigh: 0, dangerHigh: 0.5 },
+  { key: 'nitrite_ppm', label: 'Nitrite', unit: 'ppm', okHigh: 0, dangerHigh: 0.5 },
+  { key: 'nitrate_ppm', label: 'Nitrate', unit: 'ppm', okHigh: 20, dangerHigh: 40 },
+  { key: 'ph', label: 'pH', unit: '', okLow: 6.5, okHigh: 7.8, dangerLow: 6.0, dangerHigh: 8.2 },
+  { key: 'kh_ppm', label: 'Total Alkalinity (KH)', unit: 'ppm', okLow: 60, dangerLow: 40 },
+  { key: 'gh_ppm', label: 'Hardness (GH)', unit: 'ppm' },
+  { key: 'temp_f', label: 'Temperature', unit: '°F', okLow: 76, okHigh: 80, dangerLow: 74, dangerHigh: 82 },
+  { key: 'free_chlorine_ppm', label: 'Free Chlorine', unit: 'ppm', okHigh: 0 },
+  { key: 'nacl_ppm', label: 'Sodium Chloride (NaCl)', unit: 'ppm' }
+];
+const RANGE_TEXT = {
+  ammonia_ppm: 'Target 0 with fish in', nitrite_ppm: 'Target 0 with fish in', nitrate_ppm: 'Target under 20',
+  ph: 'Normal 6.5–7.8', kh_ppm: 'Normal 60 or more', gh_ppm: 'No set target', temp_f: 'Normal 76–80°F',
+  free_chlorine_ppm: 'Target 0', nacl_ppm: 'Target 0 unless treating'
+};
+
+function status(key, v) {
+  if (v == null) return null;
+  switch (key) {
+    case 'temp_f': return (v < 74 || v > 82) ? 'ACTION' : (v < 76 || v > 80) ? 'WATCH' : 'OK';
+    case 'ph': return (v < 6.0 || v > 8.2) ? 'ACTION' : (v < 6.5 || v > 7.8) ? 'WATCH' : 'OK';
+    case 'ammonia_ppm': case 'nitrite_ppm': return v >= 0.5 ? 'ACTION' : v > 0 ? 'WATCH' : 'OK';
+    case 'nitrate_ppm': return v > 40 ? 'ACTION' : v >= 20 ? 'WATCH' : 'OK';
+    case 'kh_ppm': return v < 40 ? 'ACTION' : v < 60 ? 'WATCH' : 'OK';
+    case 'free_chlorine_ppm': return v > 0 ? 'ACTION' : 'OK';
+    default: return null;
+  }
+}
+const STATUS_COLOR = { OK: 'var(--ok)', WATCH: 'var(--watch)', ACTION: 'var(--action)' };
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function num(v) { if (v === '' || v == null) return null; const n = Number(v); return Number.isFinite(n) ? n : null; }
+function fmt(v) { return v == null ? '–' : Math.abs(v) >= 100 ? String(Math.round(v)) : String(+v.toFixed(2)); }
+function md(date) { const [, m, d] = date.split('-'); return `${+m}/${+d}`; }
+
+function parseCSV(text) {
+  const rows = []; let row = [], field = '', q = false;
+  text = String(text).replace(/^﻿/, '');
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; } else field += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { row.push(field); field = ''; }
+    else if (c === '\n' || c === '\r') {
+      if (c === '\r' && text[i + 1] === '\n') i++;
+      row.push(field); field = ''; if (row.some(x => x !== '')) rows.push(row); row = [];
+    } else field += c;
+  }
+  row.push(field); if (row.some(x => x !== '')) rows.push(row);
+  const head = rows.shift().map(h => h.trim());
+  return rows.map(r => {
+    const o = {}; head.forEach((h, i) => { o[h] = (r[i] ?? '').trim(); });
+    o._ts = new Date(`${o.date}T${o.time || '00:00'}`).getTime();
+    return o;
+  }).filter(o => !isNaN(o._ts)).sort((a, b) => a._ts - b._ts);
+}
+
+/* Line chart with every reading labeled. One series per chart; one y-axis. */
+function chart(p, pts, t0, t1) {
+  const W = 360, H = 200, L = 34, R = 14, T = 22, B = 26;
+  const vals = pts.map(d => d.v);
+  const ok = [p.okLow, p.okHigh].filter(x => x != null);
+  const danger = [p.dangerLow, p.dangerHigh].filter(x => x != null);
+  let lo = Math.min(...vals, ...ok, ...danger), hi = Math.max(...vals, ...ok, ...danger);
+  if (hi === lo) { hi += 1; lo = Math.max(0, lo - 1); }
+  const pad = (hi - lo) * 0.14; hi += pad; lo = lo >= 0 && lo - pad < 0 ? 0 : lo - pad;
+  const x = t => L + (t - t0) / Math.max(1, t1 - t0) * (W - L - R);
+  const y = v => T + (hi - v) / (hi - lo) * (H - T - B);
+
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(p.label)}, last ${DAYS} days">`;
+  // day ticks
+  const day0 = new Date(t0); day0.setHours(0, 0, 0, 0);
+  const spanDays = Math.ceil((t1 - day0.getTime()) / 86400000);
+  const step = spanDays > 8 ? 2 : 1;
+  for (let i = 0; i <= spanDays; i += step) {
+    const d = new Date(day0); d.setDate(d.getDate() + i); const t = d.getTime() + 12 * 3600000;
+    if (t < t0 - 12 * 3600000 || t > t1 + 12 * 3600000) continue;
+    const xx = Math.min(W - R, Math.max(L, x(t))).toFixed(1);
+    s += `<line x1="${xx}" y1="${T - 6}" x2="${xx}" y2="${H - B}" stroke="var(--grid)"/>`;
+    s += `<text class="ax" x="${xx}" y="${H - 8}" text-anchor="middle">${d.getMonth() + 1}/${d.getDate()}</text>`;
+  }
+  s += `<line x1="${L}" y1="${H - B}" x2="${W - R}" y2="${H - B}" stroke="var(--line)"/>`;
+  const hline = (v, color, dash) => {
+    const yy = y(v).toFixed(1);
+    s += `<line x1="${L}" y1="${yy}" x2="${W - R}" y2="${yy}" stroke="${color}" stroke-width="1.5" ${dash ? `stroke-dasharray="${dash}"` : ''}/>`;
+    s += `<text class="ax" x="${L - 5}" y="${(+yy + 3.5).toFixed(1)}" text-anchor="end">${fmt(v)}</text>`;
+  };
+  ok.forEach(v => hline(v, 'var(--ok)', '5 4'));
+  danger.forEach(v => hline(v, 'var(--action)', ''));
+  if (!ok.length && !danger.length) {
+    [...new Set([Math.min(...vals), Math.max(...vals)])].forEach(v => {
+      const yy = y(v).toFixed(1);
+      s += `<line x1="${L}" y1="${yy}" x2="${W - R}" y2="${yy}" stroke="var(--grid)"/>`;
+      s += `<text class="ax" x="${L - 5}" y="${(+yy + 3.5).toFixed(1)}" text-anchor="end">${fmt(v)}</text>`;
+    });
+  }
+  if (pts.length > 1) {
+    s += `<polyline points="${pts.map(d => `${x(d.t).toFixed(1)},${y(d.v).toFixed(1)}`).join(' ')}" fill="none" stroke="var(--series)" stroke-width="2" stroke-linejoin="round"/>`;
+  }
+  // labels: above by default; flip below when the previous label would collide
+  let prev = null;
+  pts.forEach((d, i) => {
+    const cx = x(d.t), cy = y(d.v);
+    const txt = fmt(d.v), w = txt.length * 6 + 4;
+    let above = true;
+    const next = pts[i + 1];
+    if (prev && prev.above && Math.abs(cx - prev.cx) < (w + prev.w) / 2 + 2 && Math.abs(cy - prev.cy) < 14) above = false;
+    else if (next && d.v < next.v && cy - 12 < T) above = false;
+    if (cy - 12 < 8) above = false;
+    if (!above && cy + 18 > H - B + 4 && cy - 12 >= 8) above = true;
+    let lx = Math.min(W - R - w / 2 + 2, Math.max(L + w / 2 - 2, cx));
+    const ly = above ? cy - 8 : cy + 16;
+    prev = { cx, cy, w, above };
+    const st = status(p.key, d.v);
+    const col = st ? STATUS_COLOR[st] : 'var(--series)';
+    s += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="4.5" fill="${col}" stroke="var(--card)" stroke-width="2"><title>${esc(d.when)}: ${txt} ${esc(p.unit)}</title></circle>`;
+    s += `<text class="lbl" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle">${txt}</text>`;
+  });
+  return s + '</svg>';
+}
+
+async function getText(url) {
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`${url}: ${res.status}`);
+  return res.text();
+}
+
+async function main() {
+  const $ = id => document.getElementById(id);
+  const errs = [];
+  let profile = {}, recs = [];
+  try { profile = JSON.parse(await getText('tank_profile.json')); } catch (e) { errs.push('Could not load the tank profile.'); }
+  try { recs = parseCSV(await getText('tank_water_log.csv')); } catch (e) { errs.push('Could not load the water test log.'); }
+  if (profile.tank_id) recs = recs.filter(r => r.tank_id === profile.tank_id);
+  if (errs.length) $('errors').innerHTML = `<div class="card err">${errs.map(esc).join('<br>')}</div>`;
+
+  const last = recs[recs.length - 1];
+  if (profile.title) { $('title').textContent = profile.title; document.title = `Tank Report · ${profile.title}`; }
+  if (profile.tank_id) $('eyebrow').textContent = `Tank report · ${profile.tank_id}`;
+  $('sub').textContent = last
+    ? `Readings through ${md(last.date)}/${last.date.slice(0, 4)} ${last.time} · profile updated ${profile.updated || '—'}`
+    : 'No readings yet';
+
+  // Photo
+  const ph = profile.photo || {};
+  if (ph.file) {
+    const img = $('photoImg');
+    img.onload = () => { $('photo').hidden = false; };
+    img.onerror = () => { $('photoMissing').hidden = false; };
+    img.src = ph.file + (ph.date ? `?d=${encodeURIComponent(ph.date)}` : '');
+    const cap = [ph.caption, ph.date ? `Photo taken ${ph.date}` : ''].filter(Boolean).join(' · ');
+    $('photoCap').textContent = cap;
+  } else $('photoMissing').hidden = false;
+
+  // Snapshot stats
+  const fish = profile.fish || [];
+  const known = fish.every(f => typeof f.count === 'number');
+  const fishCount = known ? String(fish.reduce((a, f) => a + f.count, 0)) : 'Up to ~19';
+  const stats = [
+    ['Cycle day', last && last.cycle_day ? last.cycle_day : '—'],
+    ['Fish', fishCount],
+    ['Plants', profile.plants && profile.plants.count ? profile.plants.count.replace(/^About /, '~').replace(/ plants.*$/, '') : '—'],
+    ['Latest status', last && last.status ? `<span class="badge ${esc(last.status)}">${esc(last.status)}</span>` : '—']
+  ];
+  $('stats').innerHTML = stats.map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${k === 'Latest status' ? v : esc(v)}</div></div>`).join('');
+
+  // Fish
+  $('fishTable').innerHTML = '<thead><tr><th>Species</th><th class="num">Count</th><th>Notes</th></tr></thead><tbody>' +
+    fish.map(f => `<tr><td>${esc(f.name)}<div class="latin">${esc(f.latin || '')}</div></td>` +
+      `<td class="num">${typeof f.count === 'number' ? f.count : (f.count ? esc(f.count) : '<span class="muted">tbc</span>')}</td>` +
+      `<td>${esc(f.note || '')}</td></tr>`).join('') + '</tbody>';
+  $('fishNote').textContent = profile.fish_total_note || '';
+
+  // Plants
+  const pl = profile.plants || {};
+  $('plants').innerHTML = `<p><b>${esc(pl.count || '—')}</b></p>` +
+    (pl.species && pl.species.length
+      ? `<ul class="plain">${pl.species.map(s => `<li>${typeof s === 'string' ? esc(s) : `${esc(s.name)}${s.count ? ` (${esc(s.count)})` : ''}`}</li>`).join('')}</ul>`
+      : `<p class="muted small">${esc(pl.species_note || 'Species not listed yet.')}</p>`);
+
+  // Hardscape
+  $('hardscape').innerHTML = `<ul class="plain">${(profile.hardscape || []).map(h =>
+    `<li><b>${esc(h.item)}</b>${h.note ? ` <span class="muted">— ${esc(h.note)}</span>` : ''}</li>`).join('')}</ul>`;
+
+  // Setup
+  $('setup').innerHTML = (profile.setup || []).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');
+
+  // Charts
+  if (last) {
+    const t1 = last._ts, cutoff = t1 - DAYS * 86400000;
+    const recent = recs.filter(r => r._ts >= cutoff);
+    const t0 = recent[0]._ts;
+    $('charts').innerHTML = PARAMS.map(p => {
+      const pts = recent.map(r => ({ t: r._ts, v: num(r[p.key]), when: `${md(r.date)} ${r.time}` })).filter(d => d.v != null);
+      if (!pts.length) return '';
+      const latest = pts[pts.length - 1];
+      const st = status(p.key, latest.v);
+      return `<div class="card chart"><h3>${esc(p.label)} <span>latest ${fmt(latest.v)}${p.unit ? ' ' + esc(p.unit) : ''}${st ? ` <span class="badge ${st}">${st}</span>` : ''}</span></h3>` +
+        `<div class="range">${esc(RANGE_TEXT[p.key] || '')}${p.unit && p.unit !== '°F' ? ` · ${esc(p.unit)}` : ''}</div>` +
+        chart(p, pts, t0, t1) + '</div>';
+    }).join('');
+
+    const cols = [['Date', r => md(r.date)], ['Time', r => r.time]].concat(PARAMS.map(p => [p.label.replace(/ \(.*\)/, '').replace('Ammonia nitrogen', 'Ammonia').replace('Total Alkalinity', 'KH').replace('Hardness', 'GH').replace('Free Chlorine', 'Cl').replace('Sodium Chloride', 'NaCl').replace('Temperature', '°F'), r => fmt(num(r[p.key]))]))
+      .concat([['Water change', r => num(r.water_change_pct) ? r.water_change_pct + '%' : ''], ['Status', r => r.status ? `<span class="badge ${esc(r.status)}">${esc(r.status)}</span>` : '']]);
+    $('rawTable').innerHTML = `<table><thead><tr>${cols.map(c => `<th>${esc(c[0])}</th>`).join('')}</tr></thead><tbody>` +
+      recent.slice().reverse().map(r => `<tr>${cols.map(([h, f], i) => `<td${i > 1 && h !== 'Status' && h !== 'Water change' ? ' class="num"' : ''}>${h === 'Status' ? f(r) : esc(f(r))}</td>`).join('')}</tr>`).join('') +
+      '</tbody></table>';
+  }
+
+  // Timeline + questions
+  $('timeline').innerHTML = (profile.timeline || []).map(([d, t]) => `<li><b>${esc(d)}</b><span>${esc(t)}</span></li>`).join('');
+  $('questions').innerHTML = (profile.questions || []).map(q => `<li>${esc(q)}</li>`).join('');
+  $('foot').textContent = 'Readings are from home test strips (color estimates), logged by the owner. Charts show every test in the last 14 days.';
+}
+main();
+</script>
+</body>
+</html>

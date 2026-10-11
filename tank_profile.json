@@ -1,0 +1,54 @@
+{
+  "_note": "Tank profile for report.html. Edit this file (not the CSV) when stocking, plants, hardscape, the photo, or the questions change. Use null for anything not confirmed yet.",
+  "updated": "2026-10-11",
+  "tank_id": "T40-FW",
+  "title": "40-gallon planted community tank",
+  "photo": {
+    "file": "tank_photo.jpg",
+    "date": null,
+    "caption": null
+  },
+  "setup": [
+    ["Volume", "40 US gallons, freshwater"],
+    ["Filter / heat", "Oase canister filter with built-in heater"],
+    ["Substrate", "Nutrient plant soil capped with sand"],
+    ["Water source", "Chlorinated city tap water (tap: pH 7.8, KH 180, GH 125)"],
+    ["Conditioner", "Continuum Aquatics Fraction, 4 ml per water change"],
+    ["Bacteria starter", "Microbe-Lift Nite-Out II, 20 ml daily during the cycle"],
+    ["Plant food", "Zeolite root tabs at each plant base (added 10/07)"],
+    ["Testing", "8-in-1 test strips plus a separate ammonia test. Strip readings are color estimates; the strip's nitrite scale steps 0, 1, 5, 10 ppm."]
+  ],
+  "fish": [
+    { "name": "Zebra danio", "latin": "Danio rerio", "count": null, "note": "4 added 10/04; more added 10/10" },
+    { "name": "Platy", "latin": "Xiphophorus maculatus", "count": null, "note": "3 added 10/04; more added 10/10" },
+    { "name": "Angelfish", "latin": "Pterophyllum scalare", "count": null, "note": "At least 1, added 10/10" },
+    { "name": "Dwarf gourami", "latin": "Trichogaster lalius", "count": 2, "note": "Added 10/10" }
+  ],
+  "fish_total_note": "Up to about 19 fish in total. Exact count by species still being confirmed.",
+  "plants": {
+    "count": "About 11 to 15 plants of varying sizes",
+    "species": [],
+    "species_note": "Species list to come."
+  },
+  "hardscape": [
+    { "item": "Driftwood", "note": null },
+    { "item": "Rock", "note": "Type to be added." }
+  ],
+  "timeline": [
+    ["10/03", "Cycle started. First Nite-Out II dose; no fish."],
+    ["10/04", "First fish: 4 zebra danios and 3 platys (switched to a fish-in cycle)."],
+    ["10/05", "KH dropped 80 to 40 and pH 6.8 to 6.2 overnight."],
+    ["10/06", "First ammonia and nitrite readings (0.5 ppm each)."],
+    ["10/07", "50% water change. Plants re-anchored, root tabs added. Nitrite back to 0; KH back to 80."],
+    ["10/08", "KH and pH dropped again overnight (80 to 40, 7.2 to 6.2)."],
+    ["10/09", "Milky water (bacterial bloom). KH 80 and pH 6.8 held for two days."],
+    ["10/10", "About 12 more fish added mid-cycle, not quarantined. KH and pH dropped again that evening."],
+    ["10/11", "Ammonia and nitrite still 0 the morning after. KH 40, pH 6.2."]
+  ],
+  "questions": [
+    "KH and pH keep dropping overnight (KH 80 to 40, pH 6.8 to 6.2) even though the tap water is KH 180, pH 7.8. We think the plant soil and driftwood are pulling them down. Crushed coral is on order. What else has worked for you?",
+    "Stocking: zebra danios, platys, angelfish, and two dwarf gouramis in a 40-gallon, added while the tank is still cycling. Any compatibility or overstocking concerns?",
+    "Nitrate has read 0 for three days in a heavily planted tank. Normal with this many plants, or a strip problem?",
+    "GH swings between 50 and 125 on the strips. Has anyone seen strips this jumpy?"
+  ]
+}

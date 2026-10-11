@@ -1,7 +1,7 @@
-/* Tank Manager service worker — v1.8
- * App files: cache first (works offline). CSV: network first, cached copy when offline.
+/* Tank Manager service worker — v1.9
+ * App files: cache first (works offline). CSV, profile JSON, photos, report: network first, cached copy when offline.
  * Bump CACHE when app files change so phones pick up the new version. */
-const CACHE = 'tank-manager-v1.8';
+const CACHE = 'tank-manager-v1.9';
 const SHELL = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest', 'icon.svg'];
 
 self.addEventListener('install', e => {
@@ -21,7 +21,8 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (url.origin !== location.origin) return;
 
-  if (url.pathname.endsWith('.csv')) {
+  // Data, profile, photos, and the report page: network first so updates show right away.
+  if (/\.(csv|json|jpe?g|png|webp)$/i.test(url.pathname) || url.pathname.endsWith('report.html')) {
     e.respondWith(
       fetch(e.request)
         .then(res => {

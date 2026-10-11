@@ -275,3 +275,7 @@ button.tile { display: flex; flex-direction: column; justify-content: flex-start
 .ht-steps li { margin-bottom: 8px; }
 .ht-tip { background: var(--bg); border-left: 4px solid var(--brand); border-radius: 8px; padding: 8px 10px; margin: 10px 0 0; }
 @media (max-width: 380px) { .top h1 { font-size: 1.2rem; } .learn-btn { padding: 0 9px; } }
+
+/* ---------- v1.9: link to the shareable report ---------- */
+.report-link { color: var(--brand); font-weight: 600; text-decoration: none; }
+.report-link:hover { text-decoration: underline; }
