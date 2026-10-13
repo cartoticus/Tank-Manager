@@ -1,12 +1,12 @@
 {
   "_note": "Tank profile for report.html. Edit this file (not the CSV) when stocking, plants, hardscape, the photo, or the questions change. Use null for anything not confirmed yet.",
-  "updated": "2026-10-11",
+  "updated": "2026-10-13",
   "tank_id": "T40-FW",
   "title": "40-gallon planted community tank",
   "photo": {
     "file": "tank_photo.jpg",
-    "date": "2026-10-11",
-    "caption": "Full tank, day 9 of the cycle. The haze is a bacterial bloom that is clearing."
+    "date": "2026-10-13",
+    "caption": "Full tank, day 11 of the cycle (10/13). Still a light haze from the bacterial bloom."
   },
   "setup": [
     [
@@ -53,7 +53,7 @@
       "name": "Platy",
       "latin": "Xiphophorus maculatus",
       "count": null,
-      "note": "3 added 10/04; more added 10/10"
+      "note": "3 added 10/04; more added 10/10. Colors seen: yellow, red, black with yellow fins."
     },
     {
       "name": "Angelfish",
@@ -161,28 +161,52 @@
     [
       "10/11",
       "Ammonia and nitrite still 0 the morning after. KH 40, pH 6.2."
+    ],
+    [
+      "10/12",
+      "KH down to 20 by morning. 50% water change that evening took KH back to 80 and pH to 6.8."
+    ],
+    [
+      "10/13",
+      "KH 80 and pH 6.8 held overnight. Ammonia and nitrite 0 for the 6th morning in a row (3rd with all the fish)."
     ]
   ],
   "questions": [
     "KH and pH keep dropping overnight (KH 80 to 40, pH 6.8 to 6.2) even though the tap water is KH 180, pH 7.8. We think the plant soil and driftwood are pulling them down. Crushed coral is on order. What else has worked for you?",
     "Stocking: zebra danios, platys, angelfish, and two dwarf gouramis in a 40-gallon, added while the tank is still cycling. Any compatibility or overstocking concerns?",
-    "Nitrate has read 0 for three days in a heavily planted tank. Normal with this many plants, or a strip problem?",
+    "Nitrate has read 0 for about a week in a heavily planted tank. Normal with this many plants, or a strip problem?",
     "White cottony fuzz is growing on parts of the driftwood (see the close-ups). We're treating it as the usual new-wood biofilm and leaving it. Agree? Anything that would eat it in this stocking?",
     "GH swings between 50 and 125 on the strips. Has anyone seen strips this jumpy?",
     "Can anyone identify the plants and the grey holey rock? If the rock is a Seiryu-type stone it should push KH up, not down, which makes the KH drops more puzzling."
   ],
   "gallery": [
     {
+      "file": "photo_platy_yellow.jpg",
+      "caption": "(10/13) Yellow platy in front of the grey rock and the red Alternanthera."
+    },
+    {
+      "file": "photo_platys_pair.jpg",
+      "caption": "(10/13) Two platys near the surface: black with yellow fins, and red. The thin strand by the red one is a floating-plant root."
+    },
+    {
+      "file": "photo_gourami_angel.jpg",
+      "caption": "(10/13) Dwarf gourami with good color, a second gourami below it, the angelfish (top right), and a zebra danio."
+    },
+    {
+      "file": "photo_angelfish.jpg",
+      "caption": "(10/13) The angelfish. Fins look intact so far (zebra danios can nip)."
+    },
+    {
       "file": "photo_driftwood_1.jpg",
-      "caption": "White, cottony fuzz and some stringy growth on the driftwood."
+      "caption": "(10/11) White, cottony fuzz and some stringy growth on the driftwood."
     },
     {
       "file": "photo_driftwood_2.jpg",
-      "caption": "Another view of the driftwood: same white fuzz, plus fine reddish hairs near the anubias."
+      "caption": "(10/11) Another view of the driftwood: same white fuzz, plus fine reddish hairs near the anubias."
     },
     {
       "file": "photo_gourami.jpg",
-      "caption": "One of the dwarf gouramis on its first full day in the tank. Behind it: a zebra danio, melting crypt leaves, and a small snail."
+      "caption": "(10/11) One of the dwarf gouramis on its first full day in the tank. Behind it: a zebra danio, melting crypt leaves, and a small snail."
     }
   ],
   "other_life": "Small snails (hitchhikers on the plants; type unknown)."
