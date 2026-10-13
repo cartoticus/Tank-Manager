@@ -1,7 +1,8 @@
 'use strict';
-/* Tank Manager PWA v1.11
- * Reads tank_water_log.csv (fixed 22-column schema) and shows status,
- * recommendation, latest readings (tap a tile for its detail card and 14-day trend), and the test log.
+/* Tank Manager PWA v1.12
+ * Reads tank_water_log.csv (fixed 22-column schema) and journal.json, and shows status,
+ * recommendation, latest readings (tap a tile for its detail card and 14-day trend),
+ * the last 6 tests (now vs last), and the last 6 journal entries. #log and #journal show everything.
  */
 
 const SCHEMA = ('date,time,tank_id,cycle_day,temp_f,ph,ammonia_ppm,nitrite_ppm,nitrate_ppm,' +
@@ -15,15 +16,15 @@ const STORE_KEY = 'tank_csv_v1';
  * okLow/okHigh = green "normal" lines. dangerLow/dangerHigh = red "danger" lines.
  * cycleDangerHigh = danger line used during a fishless cycle (fish_count = 0). */
 const PARAMS = [
-  { key: 'temp_f', label: 'Temperature', desc: 'Water temperature', unit: '°F', okLow: 76, okHigh: 80, dangerLow: 74, dangerHigh: 82 },
-  { key: 'ph', label: 'pH', desc: 'Acid / base balance', unit: '', okLow: 6.5, okHigh: 7.8, dangerLow: 6.0, dangerHigh: 8.2 },
-  { key: 'ammonia_ppm', label: 'Ammonia nitrogen', desc: 'Fish waste - toxic', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 4 },
-  { key: 'nitrite_ppm', label: 'Nitrite', desc: 'Breakdown of ammonia - toxic', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 5 },
-  { key: 'nitrate_ppm', label: 'Nitrate', desc: 'End product - remove with water changes', unit: 'ppm', okHigh: 20, dangerHigh: 40 },
-  { key: 'kh_ppm', label: 'Total Alkalinity (KH)', desc: 'Carbonate hardness - keeps pH steady', unit: 'ppm', okLow: 60, dangerLow: 40 },
-  { key: 'gh_ppm', label: 'Hardness (GH)', desc: 'General hardness - calcium and magnesium', unit: 'ppm' },
-  { key: 'free_chlorine_ppm', label: 'Free Chlorine', desc: 'From tap water - toxic', unit: 'ppm', okHigh: 0 },
-  { key: 'nacl_ppm', label: 'Sodium Chloride (NaCl)', desc: 'Salt level', unit: 'ppm' }
+  { key: 'temp_f', short: 'Temp', label: 'Temperature', desc: 'Water temperature', unit: '°F', okLow: 76, okHigh: 80, dangerLow: 74, dangerHigh: 82 },
+  { key: 'ph', short: 'pH', label: 'pH', desc: 'Acid / base balance', unit: '', okLow: 6.5, okHigh: 7.8, dangerLow: 6.0, dangerHigh: 8.2 },
+  { key: 'ammonia_ppm', short: 'Ammonia', label: 'Ammonia nitrogen', desc: 'Fish waste - toxic', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 4 },
+  { key: 'nitrite_ppm', short: 'Nitrite', label: 'Nitrite', desc: 'Breakdown of ammonia - toxic', unit: 'ppm', okHigh: 0, dangerHigh: 0.5, cycleDangerHigh: 5 },
+  { key: 'nitrate_ppm', short: 'Nitrate', label: 'Nitrate', desc: 'End product - remove with water changes', unit: 'ppm', okHigh: 20, dangerHigh: 40 },
+  { key: 'kh_ppm', short: 'KH', label: 'Total Alkalinity (KH)', desc: 'Carbonate hardness - keeps pH steady', unit: 'ppm', okLow: 60, dangerLow: 40 },
+  { key: 'gh_ppm', short: 'GH', label: 'Hardness (GH)', desc: 'General hardness - calcium and magnesium', unit: 'ppm' },
+  { key: 'free_chlorine_ppm', short: 'Chlorine', label: 'Free Chlorine', desc: 'From tap water - toxic', unit: 'ppm', okHigh: 0 },
+  { key: 'nacl_ppm', short: 'NaCl', label: 'Sodium Chloride (NaCl)', desc: 'Salt level', unit: 'ppm' }
 ];
 
 /* Plain-language explainers shown when a reading tile is tapped (v1.2).
@@ -527,7 +528,7 @@ function render(data, sourceText) {
   $('source').textContent = sourceText;
 
   if (!recs.length) {
-    ['statusCard', 'readingsSection', 'logSection'].forEach(id => { $(id).hidden = true; });
+    ['statusCard', 'readingsSection', 'logSection', 'journalSection'].forEach(id => { $(id).hidden = true; });
     $('empty').hidden = false;
     $('tankSub').textContent = 'No tests logged yet';
     return;
@@ -575,17 +576,8 @@ function render(data, sourceText) {
   $('readingsSection').hidden = false;
   STATE.current = recs;
 
-  // Log (newest first)
-  $('log').innerHTML = recs.slice().reverse().map(r => {
-    const meta = [];
-    if (r.cycle_day) meta.push(`Day ${esc(r.cycle_day)}`);
-    if (r.dose_product) meta.push(`${esc(r.dose_product)}${r.dose_ml ? ' ' + esc(r.dose_ml) + ' ml' : ''}`);
-    if (num(r.water_change_pct) > 0) meta.push(`${esc(r.water_change_pct)}% water change`);
-    return `<li><div class="when"><span>${esc(r.date)} ${esc(r.time)}</span>${badge(r.status)}</div>` +
-      (meta.length ? `<div class="meta">${meta.join(' · ')}</div>` : '') +
-      (r.observations ? `<div class="obs">${esc(r.observations)}</div>` : '') + '</li>';
-  }).join('');
-  $('logSection').hidden = false;
+  // Test log + journal (v1.12): last 6 on the dashboard, everything on #log / #journal
+  renderLists(recs);
 
   if (OPEN_DETAIL) fillDetail(OPEN_DETAIL);
 }
@@ -864,6 +856,137 @@ function closeDetail() {
   else hideDetail();
 }
 
+/* ---------- v1.12: test log cards, journal, full-list views ---------- */
+
+const PREVIEW_COUNT = 6;
+const JOURNAL_URL = 'journal.json';
+const JOURNAL_STORE = 'tank_journal_v1';
+let JOURNAL = { ok: false, byKey: new Map() };
+
+function journalKey(tank, date, time) { return `${tank}|${date}|${time}`; }
+
+/* '' = dashboard, 'log' = all tests, 'journal' = all journal entries */
+function currentView() {
+  const h = (location.hash || '').replace('#', '');
+  return h === 'log' || h === 'journal' ? h : '';
+}
+
+/* Most recent earlier value of a parameter for this tank (skips tests where it wasn't recorded). */
+function prevValue(recs, i, key) {
+  for (let j = i - 1; j >= 0; j--) {
+    const v = num(recs[j][key]);
+    if (v != null) return v;
+  }
+  return null;
+}
+
+function cardHead(r) {
+  const day = r.cycle_day ? `<span class="day">Day ${esc(r.cycle_day)}</span>` : '';
+  return `<div class="ec-head"><div><b>${esc(r.date)}</b> <span class="muted">${esc(r.time)}</span> ${day}</div>${badge(r.status)}</div>`;
+}
+
+function changeCell(v, prev) {
+  if (prev == null) return '<td class="chg muted">new</td>';
+  const d = +(v - prev).toFixed(2);
+  if (d === 0) return '<td class="chg muted">same</td>';
+  return d > 0
+    ? `<td class="chg up">▲ ${fmt(d)}</td>`
+    : `<td class="chg down">▼ ${fmt(-d)}</td>`;
+}
+
+/* One test: just the measurements, each with the previous reading and the change. */
+function logCard(recs, i) {
+  const r = recs[i];
+  const fishless = isFishless(r);
+  const rows = PARAMS.map(p => {
+    const v = num(r[p.key]);
+    if (v == null) return '';
+    const prev = prevValue(recs, i, p.key);
+    const st = paramStatus(p.key, v, fishless) || '';
+    return `<tr><th scope="row">${esc(p.short)}</th>` +
+      `<td class="cur ${st}">${fmt(v)}${p.unit ? ` <span class="unit">${esc(p.unit)}</span>` : ''}</td>` +
+      `<td class="last">Last ${fmt(prev)}</td>${changeCell(v, prev)}</tr>`;
+  }).join('');
+  const st = RANK[r.status] != null ? r.status : 'NONE';
+  return `<li class="ecard ${st}">${cardHead(r)}` +
+    (rows ? `<table class="ltable"><tbody>${rows}</tbody></table>` : '<p class="muted small">No readings recorded.</p>') +
+    '</li>';
+}
+
+/* One journal entry, same card layout as the test log. */
+function journalCard(r, e) {
+  const st = RANK[r.status] != null ? r.status : 'NONE';
+  const acts = Array.isArray(e.actions) ? e.actions.filter(Boolean) : [];
+  return `<li class="ecard ${st}">${cardHead(r)}` +
+    (e.title ? `<p class="jtitle">${esc(e.title)}</p>` : '') +
+    (e.meaning ? `<p class="jlbl">What it means</p><p class="jtext">${esc(e.meaning)}</p>` : '') +
+    (acts.length ? `<p class="jlbl">Action items</p><ul class="jacts">${acts.map(a => `<li>${esc(a)}</li>`).join('')}</ul>` : '') +
+    (e.notes ? `<p class="jlbl">Notes</p><p class="jtext muted">${esc(e.notes)}</p>` : '') +
+    '</li>';
+}
+
+function renderLists(recs) {
+  const $ = id => document.getElementById(id);
+  const view = currentView();
+  const tank = recs.length ? recs[recs.length - 1].tank_id : '';
+
+  // Test log
+  const order = recs.map((r, i) => i).reverse();           // newest first
+  const logIdx = view === 'log' ? order : order.slice(0, PREVIEW_COUNT);
+  $('log').innerHTML = logIdx.map(i => logCard(recs, i)).join('');
+  $('logTitle').textContent = view === 'log' ? `All tests (${recs.length})` : 'Test log';
+  $('logMore').hidden = view === 'log' || recs.length <= PREVIEW_COUNT;
+  $('logMore').textContent = `See all ${recs.length} tests →`;
+
+  // Journal (entries are matched to tests by tank, date, and time)
+  const withEntry = order
+    .map(i => ({ r: recs[i], e: JOURNAL.byKey.get(journalKey(tank, recs[i].date, recs[i].time)) }))
+    .filter(x => x.e);
+  const jShow = view === 'journal' ? withEntry : withEntry.slice(0, PREVIEW_COUNT);
+  $('journal').innerHTML = jShow.map(x => journalCard(x.r, x.e)).join('');
+  $('journalTitle').textContent = view === 'journal' ? `All journal entries (${withEntry.length})` : 'Journal';
+  $('journalEmpty').hidden = withEntry.length > 0;
+  $('journalEmpty').textContent = JOURNAL.ok ? 'No journal entries yet.' : 'Journal not loaded (offline, or journal.json is missing on GitHub).';
+  $('journalMore').hidden = view === 'journal' || withEntry.length <= PREVIEW_COUNT;
+  $('journalMore').textContent = `See all ${withEntry.length} journal entries →`;
+
+  // Which sections show in each view
+  const dash = view === '';
+  $('statusCard').hidden = !dash;
+  $('readingsSection').hidden = !dash;
+  $('logSection').hidden = !(dash || view === 'log');
+  $('journalSection').hidden = !(dash || view === 'journal');
+  $('logBack').hidden = view !== 'log';
+  $('journalBack').hidden = view !== 'journal';
+  document.body.classList.toggle('full-view', !dash);
+}
+
+function setJournal(text) {
+  try {
+    const j = JSON.parse(text);
+    const list = Array.isArray(j) ? j : (j.entries || []);
+    const byKey = new Map();
+    list.forEach(e => { if (e && e.date && e.time) byKey.set(journalKey(e.tank_id || '', e.date, e.time), e); });
+    JOURNAL = { ok: true, byKey };
+  } catch (e) {
+    JOURNAL = { ok: false, byKey: new Map() };
+  }
+}
+
+async function loadJournal() {
+  try {
+    const res = await fetch(JOURNAL_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.status);
+    const text = await res.text();
+    try { localStorage.setItem(JOURNAL_STORE, text); } catch (e) { /* storage unavailable */ }
+    setJournal(text);
+    return;
+  } catch (e) { /* fall back to saved copy */ }
+  let saved = null;
+  try { saved = localStorage.getItem(JOURNAL_STORE); } catch (e) { /* ignore */ }
+  if (saved) setJournal(saved);
+}
+
 /* ---------- Loading ---------- */
 
 function saveLocal(text) {
@@ -882,14 +1005,17 @@ function show(text, sourceText) {
 }
 
 async function load() {
+  const journalReady = loadJournal();
   try {
     const res = await fetch(CSV_URL, { cache: 'no-store' });
     if (!res.ok) throw new Error(res.status);
     const text = await res.text();
     saveLocal(text);
+    await journalReady;
     show(text, 'Data: tank_water_log.csv from GitHub');
     return;
   } catch (e) { /* fall through to saved copy */ }
+  await journalReady;
   const saved = loadLocal();
   if (saved) show(saved, 'Data: last loaded copy (offline or no CSV on GitHub)');
   else show('', 'Data: none loaded');
@@ -903,6 +1029,11 @@ if (typeof document !== 'undefined') {
   document.getElementById('detail').addEventListener('click', e => { if (e.target.id === 'detail') closeDetail(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && OPEN_DETAIL) closeDetail(); });
   window.addEventListener('popstate', () => { if (OPEN_DETAIL) hideDetail(); });
+  window.addEventListener('hashchange', () => {
+    if (OPEN_DETAIL) hideDetail();
+    if (STATE.recs.length || STATE.problems.length) render(STATE, STATE.source);
+    window.scrollTo(0, 0);
+  });
   document.getElementById('fileInput').addEventListener('change', e => {
     const f = e.target.files && e.target.files[0];
     if (!f) return;

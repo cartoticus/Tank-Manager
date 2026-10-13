@@ -284,3 +284,50 @@ button.tile { display: flex; flex-direction: column; justify-content: flex-start
 .top-actions { flex-direction: column; align-items: flex-end; gap: 6px; }
 .btn-row { display: flex; gap: 8px; align-items: center; }
 .top-report { font-size: .82rem; white-space: nowrap; }
+
+/* ---------- v1.12: tiled test log + journal, wider layout on big screens ---------- */
+@media (min-width: 900px) {
+  main { max-width: 1120px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+}
+.sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.back-link, .more-link { color: var(--brand); font-weight: 600; text-decoration: none; }
+.back-link { font-size: .9rem; white-space: nowrap; }
+.more-link { display: inline-block; margin: 10px 0 4px; padding: 6px 0; }
+.back-link:hover, .more-link:hover { text-decoration: underline; }
+
+/* Cards fill across, then wrap down */
+.cards {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; gap: 10px; align-items: start;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+}
+.ecard {
+  background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--line);
+  border-radius: 12px; padding: 10px 12px 12px; min-width: 0;
+}
+.ecard.OK { border-top-color: var(--ok); }
+.ecard.WATCH { border-top-color: var(--watch); }
+.ecard.ACTION { border-top-color: var(--action); }
+.ec-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
+.ec-head .day { font-size: .78rem; color: var(--muted); margin-left: 4px; }
+
+/* Test log: reading | now | last | change */
+.ltable { width: 100%; border-collapse: collapse; font-size: .9rem; font-variant-numeric: tabular-nums; }
+.ltable th, .ltable td { padding: 4px 0; border-top: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.ltable tr:first-child th, .ltable tr:first-child td { border-top: 0; }
+.ltable th { text-align: left; font-weight: 600; padding-right: 8px; }
+.ltable .cur { font-weight: 700; padding-right: 10px; }
+.ltable .cur .unit { font-size: .72rem; color: var(--muted); font-weight: 400; }
+.ltable .cur.WATCH { color: var(--watch); }
+.ltable .cur.ACTION { color: var(--action); }
+.ltable .last { color: var(--muted); padding-right: 10px; }
+.ltable .chg { font-size: .8rem; width: 4.5em; }
+.ltable .chg.up, .ltable .chg.down { color: var(--text); font-weight: 600; }
+
+/* Journal */
+.jtitle { font-weight: 700; margin: 2px 0 6px; }
+.jlbl { font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; margin: 10px 0 2px; }
+.jtext { font-size: .9rem; margin: 0; }
+.jacts { font-size: .9rem; padding-left: 18px; margin: 2px 0 0; }
+.jacts li { margin-bottom: 3px; }

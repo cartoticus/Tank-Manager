@@ -1,0 +1,111 @@
+{
+  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
+  "updated": "2026-10-13",
+  "entries": [
+    {
+      "tank_id": "T40-FW", "date": "2026-10-04", "time": "10:58",
+      "title": "Fishless start: nothing feeding the bacteria",
+      "meaning": "No fish and no bottled ammonia, so the bacteria had no food. Ammonia and nitrite at 0 here meant the cycle was not moving, not that it was done. Nitrate 10 most likely came from the plant soil.",
+      "actions": ["Add ammonia to about 2 ppm (dropped that evening when fish went in)", "Keep dosing 20 ml Nite-Out II daily", "Test the tap water to explain the nitrate"],
+      "notes": "Nite-Out II 20 ml (day 2). Status corrected WATCH to ACTION under the fishless rules (Wayne approved)."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-05", "time": "07:17",
+      "title": "First test with fish; KH and pH fell overnight",
+      "meaning": "4 zebra danios and 3 platys went in on the evening of 10/04, so this is now a fish-in cycle and the fish supply the ammonia. KH dropped 80 to 40 and pH 6.8 to 6.2 overnight. Tap water is KH 180 and pH 7.8, so the plant soil is pulling them down.",
+      "actions": ["25% water change today with 4 ml Fraction", "Retest pH and KH tomorrow morning", "New rule: KH under 60 means a 25% change that day"],
+      "notes": "Tap baseline 10/04: pH 7.8, KH 180, GH 125, chlorine 0.5, nitrate 0."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-05", "time": "17:34",
+      "title": "Evening recheck: KH and pH holding low",
+      "meaning": "KH 40 and pH 6.2 did not fall further, but did not recover either. Nitrate 10 to 5 with no water change is strip variation. Fish active and lively.",
+      "actions": ["Do the 25% water change tonight (4 ml Fraction)", "Re-anchor the uprooted plants", "Retest pH and KH in the morning"],
+      "notes": "Nite-Out II 20 ml."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-06", "time": "07:08",
+      "title": "pH stuck at 6.2, KH on the WATCH line",
+      "meaning": "Third pH 6.2 in a row. KH 40 is one step from ACTION. Ammonia and nitrite still 0 on day 4: the early part of the cycle, waste has not built up yet. The planned 10/05 water change was not done.",
+      "actions": ["25% water change today (4 ml Fraction)", "Retest pH and KH tomorrow morning"],
+      "notes": "Nite-Out II 20 ml after the test."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-06", "time": "18:06",
+      "title": "Cycle has started: ammonia and nitrite showing",
+      "meaning": "First readings above 0: ammonia 0.5 and nitrite about 0.5 (strip shows somewhere between 0 and 1). The bacteria are starting to grow. KH about 20 is crash territory.",
+      "actions": ["Water change tonight, not tomorrow: 25% now and 25% more later, 4 ml Fraction each", "Skip feeding tonight", "Get crushed coral for steadier KH"],
+      "notes": "Heater turned down (79.7°F). 4 ml Fraction dosed about 18:20 as a stopgap; no water change done."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-07", "time": "07:20",
+      "title": "Ammonia cleared overnight; nitrite still up",
+      "meaning": "Ammonia 0.5 to 0 overnight: the ammonia-eating bacteria are working, helped by the Fraction. Nitrite still about 0.5, which is the second stage of the cycle. KH about 20 is still ACTION.",
+      "actions": ["25% water change now and another this evening, 4 ml Fraction each", "Skip feeding or feed very lightly", "Full test tomorrow morning"],
+      "notes": "Nite-Out II 20 ml. Temp back to 77°F."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-07", "time": "21:45",
+      "title": "One 50% water change fixed everything",
+      "meaning": "Nitrite 0.5 to 0, pH 6.2 to 7.2, KH about 20 to 80, GH 125. Tap water is the dependable way to bring KH back.",
+      "actions": ["No more water changes tonight", "Full test tomorrow morning", "Feed lightly if nitrite is still 0", "Keep dosing 20 ml Nite-Out II"],
+      "notes": "50% change about 20:00 with about 5 ml Fraction. Plants re-anchored and zeolite root tabs added; about 11 to 15 plants. Water went cloudy afterward."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-08", "time": "07:23",
+      "title": "KH crashed again overnight",
+      "meaning": "KH 80 to 40 and pH 7.2 to 6.2 in about 10 hours: the soil pulls KH down fast. Ammonia and nitrite both 0, which is good. GH 125 to 50 is probably the strip.",
+      "actions": ["25% water change today (4 ml Fraction)", "Feed lightly", "Crushed coral is now a priority"],
+      "notes": "Nite-Out II 20 ml. The water change was not done."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-09", "time": "07:10",
+      "title": "KH and pH held; water milky",
+      "meaning": "KH 80 and pH 6.8 with no water change, so one of the last two strip reads was probably off. Ammonia and nitrite 0 for the second morning. Milky white water is a bacterial bloom: harmless, clears on its own.",
+      "actions": ["No water change today", "Leave the cloudy water alone (no clarifier)", "Feed lightly; full test tomorrow"],
+      "notes": "Fish swimming normally, good color. Crushed coral not stocked locally; ordered online."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-10", "time": "07:00",
+      "title": "Third morning of zeros",
+      "meaning": "Ammonia and nitrite 0 for three mornings after the spike: the tank is finishing its cycle. KH and pH held a second night. The bloom is clearing.",
+      "actions": ["No water change today", "Feed lightly", "Full test tomorrow morning"],
+      "notes": "Nite-Out II 20 ml. Temp 76.4°F, on target."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-10", "time": "17:43",
+      "title": "Up to 12 new fish added; KH dropped",
+      "meaning": "The fish load jumped from 7 to as many as 19 in the middle of the cycle, without quarantine. More fish means more waste and faster KH use. The week-of-zeros clock restarts, so the earliest the tank can be called cycled is about 10/17.",
+      "actions": ["25% water change tonight (4 ml Fraction)", "Skip feeding tonight", "No more fish until the tank is cycled", "Watch new fish for white spots, clamped or torn fins"],
+      "notes": "New fish include at least one angelfish, more zebra danios, and more platys."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-11", "time": "09:57",
+      "title": "Zeros hold with the bigger fish load",
+      "meaning": "Ammonia and nitrite 0 the first morning with about 19 fish: the bacteria are keeping up. KH 40 and pH 6.2 unchanged because the planned water change was skipped.",
+      "actions": ["25% water change today (4 ml Fraction)", "Feed a small pinch only", "Watch closely for ammonia or nitrite"],
+      "notes": "Two of the new fish are dwarf gouramis. Nite-Out II dosed (amount not stated)."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-12", "time": "07:33",
+      "title": "KH down to 20",
+      "meaning": "KH has been 40 or lower since 10/10 with no water change and is now in pH-crash territory. Ammonia and nitrite still 0, fifth morning in a row.",
+      "actions": ["50% water change today with 5 ml Fraction (or two 25% changes, 4 ml each)", "Nite-Out II already in; don't re-dose", "Small pinch of food; full test tomorrow"],
+      "notes": "New rule: KH under 40 means a 50% change that day. Nite-Out II 20 ml."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-12", "time": "21:45",
+      "title": "Back in range after a 50% change (without Fraction)",
+      "meaning": "KH 20 to 80, pH 6.2 to 6.8, GH 50 to 125: same lift as the 10/07 change. Nite-Out II went in by mistake instead of Fraction. Chlorine read 0, but the strip can't see under 0.5 and doesn't read chloramine.",
+      "actions": ["Dose 5 ml Fraction tonight if it hasn't gone in", "Watch for an ammonia or nitrite bump over the next 1 to 3 days", "Fraction goes in with new water; Nite-Out II after. Not interchangeable"],
+      "notes": "Facebook group feedback: the plant soil is the KH drain and water changes are the fix; crushed coral helps but isn't reliable on its own."
+    },
+    {
+      "tank_id": "T40-FW", "date": "2026-10-13", "time": "07:20",
+      "title": "KH held overnight; bacteria unharmed",
+      "meaning": "KH 80 and pH 6.8 held after yesterday's change, unlike 10/08. Ammonia and nitrite 0 for the 6th morning, 3rd with about 19 fish, so the unconditioned change did not hurt the bacteria. Nitrate still 0 on 6 tests; it needs to show before calling the tank cycled. GH 50 is probably the strip.",
+      "actions": ["No water change today", "Dose 20 ml Nite-Out II and feed a small pinch", "Full test tomorrow morning: KH under 60 means 25% change, under 40 means 50%"],
+      "notes": "Earliest the tank can be called cycled: about 10/17. Temp back to 77.3°F."
+    }
+  ]
+}

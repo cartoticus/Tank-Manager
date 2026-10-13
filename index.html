@@ -41,8 +41,16 @@
     </section>
 
     <section id="logSection" hidden>
-      <h2>Test log</h2>
-      <ol id="log" class="log"></ol>
+      <div class="sec-head"><h2 id="logTitle">Test log</h2><a id="logBack" class="back-link" href="#" hidden>← Dashboard</a></div>
+      <ol id="log" class="cards"></ol>
+      <a id="logMore" class="more-link" href="#log" hidden>See all tests →</a>
+    </section>
+
+    <section id="journalSection" hidden>
+      <div class="sec-head"><h2 id="journalTitle">Journal</h2><a id="journalBack" class="back-link" href="#" hidden>← Dashboard</a></div>
+      <p id="journalEmpty" class="muted small" hidden></p>
+      <ol id="journal" class="cards"></ol>
+      <a id="journalMore" class="more-link" href="#journal" hidden>See all journal entries →</a>
     </section>
 
     <section id="empty" class="card" hidden>
@@ -57,7 +65,7 @@
       <input id="fileInput" type="file" accept=".csv,text/csv" hidden>
     </label>
     <p id="source" class="muted small"></p>
-    <p class="muted small">App v1.11</p>
+    <p class="muted small">App v1.12</p>
   </footer>
 
   <div id="detail" class="sheet-wrap" hidden>
