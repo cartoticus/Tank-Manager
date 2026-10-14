@@ -1,6 +1,6 @@
 {
   "_note": "Tank profile for report.html. Edit this file (not the CSV) when stocking, plants, hardscape, the photo, or the questions change. Use null for anything not confirmed yet.",
-  "updated": "2026-10-13",
+  "updated": "2026-10-14",
   "tank_id": "T40-FW",
   "title": "40-gallon planted community tank",
   "photo": {
@@ -101,8 +101,8 @@
         "note": "on the driftwood"
       },
       {
-        "name": "Floating plants (likely red root floaters)",
-        "note": "across the surface"
+        "name": "Floating plants",
+        "note": "from 10/14 close-ups: Amazon frogbit (round shiny leaves, long roots), dwarf water lettuce (velvety blue-green rosettes), red root floaters (small leaves turning red, red roots), and possibly salvinia; growing fast with long roots"
       }
     ],
     "species_note": "Names are from the photo and not yet confirmed. Corrections welcome!"
