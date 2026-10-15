@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-14",
+ "updated": "2026-10-15",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -223,6 +223,20 @@
     "Full test tomorrow morning with a fresh strip, dipped 1-2 s and read on time"
    ],
    "notes": "GH 50 to 125 since morning with no water change (strip variation). Nitrate 0 for the 8th test. 78.2°F."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-15",
+   "time": "07:22",
+   "title": "8th morning of 0/0; KH stuck at 40 and pH back to 6.2",
+   "meaning": "Ammonia and nitrite are still 0 with all the fish: 5 mornings with the full load, and the 10/12 unconditioned water change did no harm. KH stayed at 40 overnight and pH fell from 6.8 to 6.2, the same state as 10/11, right before KH hit 20. The plant soil is still pulling KH down.",
+   "actions": [
+    "50% water change today with 5 ml Fraction (Fraction, not Nite-Out II)",
+    "20 ml Nite-Out II after the change; small pinch of food",
+    "Full test tomorrow morning",
+    "Watch the angelfish's fin tips for more fraying"
+   ],
+   "notes": "Water looks clearer in today's photos. Nitrate 0 for the 9th test (floaters using it). GH 125 to 50 (strip). 77.9°F. Last night's 25% change was not reported."
   }
  ]
 }
