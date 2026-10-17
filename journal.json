@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-15",
+ "updated": "2026-10-17",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -237,6 +237,21 @@
     "Watch the angelfish's fin tips for more fraying"
    ],
    "notes": "Water looks clearer in today's photos. Nitrate 0 for the 9th test (floaters using it). GH 125 to 50 (strip). 77.9°F. Last night's 25% change was not reported."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-17",
+   "time": "08:43",
+   "title": "Cycle done: 9th morning of 0/0; KH still stuck at 40",
+   "meaning": "Ammonia and nitrite have read 0 on every test for a week with all the fish in, and they stayed 0 even with no Nite-Out II for a few days. The bacteria are established, so the cycle is done (nitrate stays at 0 because the floating plants use it). KH is still 40 and pH 6.2, the same as 10/15: the plant soil keeps pulling them down, and last time this led to KH 20.",
+   "actions": [
+    "50% water change today with 5 ml Fraction (Fraction, not Nite-Out II)",
+    "No need to buy more Nite-Out II",
+    "Normal small feeding once a day",
+    "Full test tomorrow morning (KH and pH matter most now)",
+    "Put the crushed coral in the canister when it arrives"
+   ],
+   "notes": "10/16 test missed. GH 50 to 125 (strip). 77.3°F. No water change since the last one; no Fraction dosed. Hold off on new fish until KH is steady and the fish are counted."
   }
  ]
 }
