@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-17",
+ "updated": "2026-10-18",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -252,6 +252,20 @@
     "Put the crushed coral in the canister when it arrives"
    ],
    "notes": "10/16 test missed. GH 50 to 125 (strip). 77.3°F. No water change since the last one; no Fraction dosed. Hold off on new fish until KH is steady and the fish are counted."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-18",
+   "time": "08:28",
+   "title": "KH still 40 after a 6-gallon change",
+   "meaning": "Yesterday's 6-gallon change (about 15%) was too small to move KH or pH: both read exactly the same as before (KH 40, pH 6.2). The plant soil keeps pulling KH down about as fast as a small change adds it. Ammonia and nitrite are still 0, so the cycle is holding.",
+   "actions": [
+    "20-gallon (50%) water change today with 4 ml Fraction; two 10-gallon rounds is fine",
+    "Small normal feeding",
+    "Full test tomorrow morning (KH and pH)",
+    "Put the crushed coral in the canister when it arrives"
+   ],
+   "notes": "6-gal change with Fraction 10/17 ~13:00. Nitrate 0 (11th test). GH 125. 77.3°F. No Nite-Out II (not needed)."
   }
  ]
 }
