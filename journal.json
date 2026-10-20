@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-18",
+ "updated": "2026-10-20 07:14",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -266,6 +266,20 @@
     "Put the crushed coral in the canister when it arrives"
    ],
    "notes": "6-gal change with Fraction 10/17 ~13:00. Nitrate 0 (11th test). GH 125. 77.3°F. No Nite-Out II (not needed)."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-20",
+   "time": "07:14",
+   "title": "KH hit 0 - water change today",
+   "meaning": "KH (alkalinity) is the buffer that holds pH steady, and it has now run out. The plant soil keeps eating it. With no buffer, pH can drop fast and stress the fish. pH reads 6.2, the lowest step on the strip, so it may already be lower. Ammonia and nitrite are still 0, so the cycle is fine and the fish look normal.",
+   "actions": [
+    "50% (20-gallon) water change today with 4-5 ml Fraction; match the temperature",
+    "Starting tonight: 1/2 tsp baking soda dissolved in a cup of tank water, poured in slowly, once a day (max 1 tsp/day) until the crushed coral is in",
+    "Full test tomorrow morning (KH and pH first)",
+    "Wipe the green specks off the front glass with the magnet cleaner"
+   ],
+   "notes": "10/19 test missed. 20-gal change advised 10/18 not reported. Nitrate 0 (12th test). GH 125. 77.9°F. Green dust/spot algae starting on the glass - normal for a new planted tank."
   }
  ]
 }
