@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-20 07:14",
+ "updated": "2026-10-23 07:20",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -280,6 +280,22 @@
     "Wipe the green specks off the front glass with the magnet cleaner"
    ],
    "notes": "10/19 test missed. 20-gal change advised 10/18 not reported. Nitrate 0 (12th test). GH 125. 77.9°F. Green dust/spot algae starting on the glass - normal for a new planted tank."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-23",
+   "time": "07:20",
+   "title": "Nitrite back (1) with KH still 0; shrimp added",
+   "meaning": "First nitrite since 10/07 after nine clean tests. Most likely a small bump from the extra bioload (new shrimp) on bacteria working in very soft, acidic water: with KH 0 and pH at or below 6.2, the nitrite-eating bacteria slow right down. Nitrate 10 is the first above 0 in two weeks, so the chain is still running. Fish look healthy. Shrimp are more sensitive than the fish to nitrite and to low KH/pH.",
+   "actions": [
+    "50% water change today with 5 ml Fraction (Fraction also detoxifies nitrite)",
+    "Start or keep up 1/2 tsp baking soda per day, dissolved, poured slowly",
+    "Skip feeding today, then light feeding",
+    "Full test tomorrow morning: nitrite, KH, pH first",
+    "Put the crushed coral in as soon as it arrives",
+    "No more new animals until nitrite is 0 and KH holds"
+   ],
+   "notes": "Small shrimp added (species and count not stated). Tests 10/21-10/22 not reported; whether the 10/20 50% change and baking soda were done is not reported. Juvenile fish growing; algae on glass under control."
   }
  ]
 }
