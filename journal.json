@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-23 07:43",
+ "updated": "2026-10-24 09:11",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -296,6 +296,20 @@
     "No more new animals until nitrite is 0 and KH holds"
    ],
    "notes": "Small shrimp added (species and count not stated). Tests 10/21-10/22 not reported. The 50% change advised 10/20 was not done (Wayne, 07:43); planned for today. Juvenile fish growing; algae on glass under control."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-24",
+   "time": "09:11",
+   "title": "KH and pH back up after the 50% change; nitrite still 1",
+   "meaning": "Last night's 50% change brought KH from 0 back up to 80 and pH from 6.2 up to 6.8, so the buffer is restored. Nitrite didn't move, though. The bacteria that clear nitrite slowed down while the water was so acidic, and they need a few days to catch up. Nitrite damages the fish's blood so it carries less oxygen, and shrimp are hit harder. Each water change takes out about half of it.",
+   "actions": [
+    "Another 50% water change today with 5 ml Fraction. Why: the change cuts nitrite in half, and Fraction binds what's left until the bacteria catch up",
+    "Feed lightly, a small pinch once a day. Why: less food means less waste becoming nitrite",
+    "Full test tomorrow morning. Why: to see whether nitrite is falling",
+    "No baking soda needed. Why: KH 80 is in the good range"
+   ],
+   "notes": "50% change done the evening of 10/23. Baking soda was never used. Wayne pointed out it was suggested without a reason, which is fair, and the team now gives a reason with every step."
   }
  ]
 }
