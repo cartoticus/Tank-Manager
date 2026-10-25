@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-24 09:11",
+ "updated": "2026-10-25 08:17",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -310,6 +310,20 @@
     "No baking soda needed. Why: KH 80 is in the good range"
    ],
    "notes": "50% change done the evening of 10/23. Baking soda was never used. Wayne pointed out it was suggested without a reason, which is fair, and the team now gives a reason with every step."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-25",
+   "time": "08:17",
+   "title": "Nitrite fading (lighter pink); shrimp alive; snail seen",
+   "meaning": "The nitrite pad is lighter pink than before, so nitrite is probably between 0 and 1 and dropping. The strip can't show anything between those two steps. The bacteria are catching up. KH held at 80, which means the buffer from the water change lasted. pH reading 6.2 with KH 80 doesn't add up, since that much buffer normally keeps pH near 7. One-day pH drops on strips are often a bad read, so check it again tomorrow. Nitrate went from 10 to 0, which fits a big water change. At least one shrimp is alive. The snail is most likely a bladder or pond snail that rode in on the plants. It's harmless and eats algae and leftovers.",
+   "actions": [
+    "50% water change today with 5 ml Fraction. Why: nitrite is still showing, and each change cuts it about in half while the bacteria finish catching up",
+    "Keep feeding lightly. Why: less waste means less nitrite for the bacteria to deal with",
+    "Test tomorrow morning, nitrite first. Why: one more lighter reading, or a 0, means the bump is over",
+    "Leave the snails alone. Why: they're cleanup crew. A sudden snail boom means too much food, so it doubles as a feeding gauge"
+   ],
+   "notes": "Whether the 10/24 50% change was done is not reported. Green spot algae specks on the front glass (wipe during the change). Snail ID is Joseph's, not confirmed."
   }
  ]
 }
