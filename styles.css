@@ -331,3 +331,8 @@ button.tile { display: flex; flex-direction: column; justify-content: flex-start
 .jtext { font-size: .9rem; margin: 0; }
 .jacts { font-size: .9rem; padding-left: 18px; margin: 2px 0 0; }
 .jacts li { margin-bottom: 3px; }
+
+/* v1.13: history range toggle on detail cards */
+.range { display: flex; gap: 6px; margin: 0 0 10px; }
+.range button { flex: 1; min-height: 36px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: inherit; font: inherit; font-size: .85rem; cursor: pointer; }
+.range button[aria-pressed="true"] { background: var(--series); border-color: var(--series); color: var(--card); font-weight: 600; }

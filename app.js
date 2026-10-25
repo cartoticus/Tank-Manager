@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.12
+/* Tank Manager PWA v1.13
  * Reads tank_water_log.csv (fixed 22-column schema) and journal.json, and shows status,
  * recommendation, latest readings (tap a tile for its detail card and 14-day trend),
  * the last 6 tests (now vs last), and the last 6 journal entries. #log and #journal show everything.
@@ -138,11 +138,12 @@ const CYCLE_STEPS = [
 
 /* How-to guides (v1.7). Opened from the How-to button in the header.
  * Written for T40-FW: 40 gal, Oase canister with built-in heater, plant soil under sand,
- * driftwood, tap water with chlorine, Continuum Fraction conditioner, Nite-Out II. */
+ * driftwood, tap water with chlorine, Continuum Fraction conditioner. Updated v1.13 (2026-10-25): tank is cycled;
+ * Nite-Out II no longer daily; soil named as the KH drain; every step says why. */
 const HOWTO = [
   {
     id: 'water-change', title: 'Do a 25% water change', time: '20–30 min',
-    when: 'When a test calls for it (ammonia or nitrite 0.25 or more, KH under 60), and about once a week after the tank is cycled.',
+    when: 'When a test calls for it (any nitrite or ammonia, or KH under 60), and at least once a week. The plant soil keeps pulling KH down, and fresh tap water (KH 180) is what puts it back.',
     need: ['Siphon / gravel vac and a bucket (about 10 gal total for 25%)', 'Continuum Fraction (4 ml)', 'Thermometer, or your hand on the glass'],
     steps: [
       'Unplug the canister filter (the heater is built into it) so it does not suck air while the water is low.',
@@ -159,7 +160,7 @@ const HOWTO = [
   },
   {
     id: 'test', title: 'Test the water (strips)', time: '5 min',
-    when: 'Every morning while the tank is cycling. Test before feeding and before dosing anything.',
+    when: 'Every morning before feeding while KH or nitrite needs watching. Testing before feeding gives a steady comparison from day to day.',
     need: ['Test strips', 'Separate ammonia test', 'Clean cup', 'Phone timer'],
     steps: [
       'Take a sample from the middle of the tank in a clean cup, not right next to the filter outlet.',
@@ -168,14 +169,14 @@ const HOWTO = [
       'If a color falls between two pads, write both (for example "40–80"). The team will log a value in between. Nitrite jumps from 0 straight to 1 on this strip, so any pink at all means nitrite is present.',
       'Run the ammonia test as its own instructions say.',
       'Read the thermometer.',
-      'Send everything to the team, using the names on the strip: Free Chlorine, Nitrate, Nitrite, Hardness (GH), Total Alkalinity (KH), pH, Sodium Chloride, Ammonia nitrogen, plus the temperature. Total Alkalinity matters every time right now.'
+      'Send everything to the team, using the names on the strip: Free Chlorine, Nitrate, Nitrite, Hardness (GH), Total Alkalinity (KH), pH, Sodium Chloride, Ammonia nitrogen, plus the temperature. Mention whether the pink on the nitrite pad looks lighter or darker than last time. It shows a trend the strip\'s steps can\'t.'
     ],
     tip: 'Strips are rough. A liquid kit (like the API Freshwater Master Kit) tells 0.25 from 0.5 much better.'
   },
   {
-    id: 'nite-out', title: 'Dose Nite-Out II', time: '1 min',
-    when: 'Once a day while cycling, after testing and after any water change.',
-    need: ['Microbe-Lift Nite-Out II', 'Measuring cup or syringe'],
+    id: 'nite-out', title: 'Bottled bacteria (Nite-Out II) — only when needed', time: '1 min',
+    when: 'Not a daily step anymore. The tank is cycled, so the bacteria already live in the filter. Use it only after a big filter clean, after a medicine that harms bacteria, or when adding several new fish at once. Those are the times the bacteria get knocked back or suddenly have more waste to handle.',
+    need: ['Microbe-Lift Nite-Out II (you are out; only rebuy if one of the cases above comes up)', 'Measuring cup or syringe'],
     steps: [
       'Shake the bottle.',
       'Measure 20 ml.',
@@ -186,22 +187,21 @@ const HOWTO = [
   },
   {
     id: 'spike', title: 'Ammonia or nitrite spike', time: 'Same day',
-    when: 'Ammonia or nitrite at 0.5 or higher, or fish gasping at the surface.',
+    when: 'Any ammonia, any pink on the nitrite pad, or fish gasping at the surface. Ammonia burns gills, and nitrite stops blood from carrying oxygen. Shrimp are even more sensitive than fish.',
     need: ['Continuum Fraction', 'Water change gear'],
     steps: [
-      'Do not feed today.',
-      'Dose 4 ml of Fraction right away. It locks up ammonia for about a day while you get ready. It does not remove nitrite.',
-      'Do a 25% water change (see "Do a 25% water change").',
-      'Wait a few hours, then do a second 25% change.',
-      'Dose Nite-Out II after the second change.',
-      'Retest the next morning. If it is still 0.5 or higher, repeat.',
+      'Do not feed today, or feed very lightly. Why: less food means less waste for the bacteria to process.',
+      'Dose 5 ml of Fraction right away. Why: the label says it binds ammonia and nitrite for about a day, which buys time. It does not replace the water change.',
+      'Do a 50% water change (two 25% changes a few hours apart, or one 50% change). Why: it takes out about half of the ammonia or nitrite at once.',
+      'Retest the next morning. If nitrite still shows, repeat. Why: the bacteria usually need a few days to catch up, especially after KH and pH have been low.',
+      'Look for the cause. Why: a spike almost always follows something like new animals, overfeeding, a missed water change, or KH and pH crashing.',
       'If fish are gasping, lying on the bottom, or have red gills, do the first water change now. Do not wait.'
     ],
     tip: 'Water changes raise pH. At higher pH, ammonia turns more toxic, so always dose Fraction with the change.'
   },
   {
     id: 'kh', title: 'Raise KH (low KH)', time: '10 min + water change',
-    when: 'KH under 60. Under 40 is urgent: pH can crash suddenly.',
+    when: 'KH under 60. Under 40 is urgent. Why: KH is the buffer that holds pH steady. When it runs out, pH can drop fast, which stresses fish and slows the filter bacteria. That is what caused the nitrite bump on 10/23.',
     need: ['Crushed coral (about 1 cup)', 'Mesh media bag', 'Water change gear'],
     steps: [
       'Fast fix: do a 25% water change. Your tap is KH 180, so each change lifts the tank about 35–40.',
@@ -209,9 +209,10 @@ const HOWTO = [
       'Put it in a mesh bag and tie it shut.',
       'Turn off and open the canister (see "Rinse the canister media" for opening). Put the bag in a tray where water flows through it.',
       'Close it up, restart, and check for leaks.',
-      'Test KH every morning. The coral works slowly over 1–2 weeks. If KH climbs over about 150, take some coral out.'
+      'Test KH every morning. The coral works slowly over 1–2 weeks. If KH climbs over about 150, take some coral out.',
+      'Optional, only if you choose to: if KH drops under 40 and you can\'t do a water change that day, ½ tsp of baking soda dissolved in a cup of tank water and poured in slowly raises KH by about 10. Why: baking soda is sodium bicarbonate, the same buffer the KH pad measures. Use no more than 1 tsp a day, so pH doesn\'t jump.'
     ],
-    tip: 'Your plant soil and the bacteria both use up KH, so it drops faster than in most tanks.'
+    tip: 'Your plant soil is the main thing pulling KH down, and the bacteria use some too. A 50% change gets it back to about 80 but only holds for 1–2 days, which is why the coral is the long-term fix.'
   },
   {
     id: 'filter', title: 'Rinse the canister media', time: '20 min',
@@ -231,12 +232,12 @@ const HOWTO = [
     tip: 'Never replace all the media at once, and never let it dry out or sit switched off for more than an hour.'
   },
   {
-    id: 'feed', title: 'Feed during the cycle', time: '1 min',
-    when: 'Once a day. Skip days when ammonia or nitrite is 0.5 or higher.',
+    id: 'feed', title: 'Feed the fish', time: '1 min',
+    when: 'Once a day. Skip or go very light on days when ammonia or nitrite shows. Why: uneaten food and waste become ammonia, then nitrite.',
     need: ['Flake or micro pellet food'],
     steps: [
       'Feed after testing and dosing, not before.',
-      'Drop in a small pinch, enough for 7 small fish.',
+      'Drop in a small pinch, enough for about 19 small fish. The shrimp and snails eat what falls.',
       'Watch for 1 minute. It should all be gone.',
       'If food reaches the bottom, use less next time. Remove leftovers with the siphon or a net.'
     ],
@@ -270,7 +271,7 @@ const HOWTO = [
   },
   {
     id: 'new-fish', title: 'Add new fish', time: '45–60 min',
-    when: 'Only after the tank is cycled (the app shows "Cycled"). Add a few at a time.',
+    when: 'Only when ammonia and nitrite have read 0 for about a week and KH is holding steady. Add a few at a time. Why: every new animal adds waste, and the bacteria need time to grow to match it. The 10/23 shrimp were followed by a nitrite bump.',
     need: ['Bag of fish', 'Clean cup', 'Net'],
     steps: [
       'Test first. Ammonia and nitrite should both be 0.',
@@ -299,7 +300,16 @@ const HOWTO = [
   }
 ];
 
-const DETAIL_DAYS = 14;
+/* v1.13: history range for the detail cards (14d / 30d / All), remembered per phone */
+const RANGE_KEY = 'tank_detail_range_v1';
+const RANGES = [['14', '14 days'], ['30', '30 days'], ['all', 'All']];
+let DETAIL_RANGE = (() => { try { const v = localStorage.getItem(RANGE_KEY); return RANGES.some(r => r[0] === v) ? v : '14'; } catch (e) { return '14'; } })();
+function rangeLabel() { return DETAIL_RANGE === 'all' ? 'All tests' : `Last ${DETAIL_RANGE} days`; }
+function setRange(v) {
+  DETAIL_RANGE = v;
+  try { localStorage.setItem(RANGE_KEY, v); } catch (e) { /* ignore */ }
+  if (OPEN_DETAIL) fillDetail(OPEN_DETAIL);
+}
 let OPEN_DETAIL = null;
 
 const TANK_KEY = 'tank_selected_v1';
@@ -460,6 +470,7 @@ function chartSVG(p, points, fishless) {
   const dl = d => d.label.slice(5, 10);
   s += `<text x="${L}" y="${H - 6}">${dl(points[0])}</text>`;
   if (points.length > 1) s += `<text x="${W - R}" y="${H - 6}" text-anchor="end">${dl(points[points.length - 1])}</text>`;
+  if (points.length > 6) { const m = points[Math.floor(points.length / 2)]; s += `<text x="${x(m.t).toFixed(1)}" y="${H - 6}" text-anchor="middle">${dl(m)}</text>`; }
   s += '</svg>';
   return s;
 }
@@ -765,7 +776,7 @@ function fillDetail(key) {
   if (!p || !info) return;
   const recs = STATE.current || [];
   const last = recs[recs.length - 1];
-  const cutoff = Date.now() - DETAIL_DAYS * 86400000;
+  const cutoff = DETAIL_RANGE === 'all' ? -Infinity : Date.now() - (+DETAIL_RANGE) * 86400000;
   const recent = recs.filter(r => !isNaN(r._ts) && r._ts >= cutoff);
 
   // Current value
@@ -799,15 +810,15 @@ function fillDetail(key) {
   ].filter(x => x[1]);
   const explain = `<ul class="explain">${items.map(([h, t]) => `<li><b>${h}:</b> ${esc(t)}</li>`).join('')}</ul>`;
 
-  // 14-day chart
+  // Chart for the chosen range
   const points = recent
     .map(r => ({ t: r._ts, v: num(r[key]), label: `${r.date} ${r.time}`, fishless: isFishless(r) }))
     .filter(d => d.v != null);
   const chart = points.length
     ? `<div class="chart">${chartSVG(p, points, last ? isFishless(last) : false)}</div>`
-    : `<p class="muted small">No ${esc(p.label.toLowerCase())} readings in the last ${DETAIL_DAYS} days.</p>`;
+    : `<p class="muted small">No ${esc(p.label.toLowerCase())} readings in this range.</p>`;
 
-  // 14-day table (newest first)
+  // Table for the chosen range (newest first)
   const rows = recent.slice().reverse().map(r => {
     const v = num(r[key]);
     const st = v == null ? null : paramStatus(key, v, isFishless(r));
@@ -823,7 +834,8 @@ function fillDetail(key) {
   document.getElementById('detailBody').innerHTML =
     `<p class="lead">${esc(info.lead)}</p>${now}` +
     `<h3>Understanding ${esc(p.label)}</h3>${explain}` +
-    `<h3>Last ${DETAIL_DAYS} days</h3>` +
+    `<h3>${rangeLabel()}</h3>` +
+    `<div class="range" role="group" aria-label="History range">${RANGES.map(([v, l]) => `<button type="button" data-range="${v}" aria-pressed="${v === DETAIL_RANGE}">${l}</button>`).join('')}</div>` +
     `<div class="legend"><span><i class="sw ok"></i>Normal</span><span><i class="sw danger"></i>Danger</span><span><i class="sw avg"></i>Average</span></div>` +
     chart + table +
     (['ammonia_ppm', 'nitrite_ppm', 'nitrate_ppm'].includes(key)
@@ -831,6 +843,7 @@ function fillDetail(key) {
     '<button type="button" class="btn close-wide" data-close>Close</button>';
   document.querySelectorAll('#detailBody [data-close]').forEach(b => b.addEventListener('click', closeDetail));
   document.querySelectorAll('#detailBody [data-open]').forEach(b => b.addEventListener('click', () => switchDetail(b.dataset.open)));
+  document.querySelectorAll('#detailBody [data-range]').forEach(b => b.addEventListener('click', () => setRange(b.dataset.range)));
 }
 
 function openDetail(key) {
