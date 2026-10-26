@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-25 08:20",
+ "updated": "2026-10-26 07:17",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -324,6 +324,20 @@
     "Leave the snails alone. Why: they're cleanup crew. A sudden snail boom means too much food, so it doubles as a feeding gauge"
    ],
    "notes": "50% change done 10/24 (Wayne confirmed), the second in a row. Green spot algae specks on the front glass (wipe during the change). Snail ID is Joseph's, not confirmed."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-26",
+   "time": "07:17",
+   "title": "Nitrite almost gone; KH slipping back to 40",
+   "meaning": "Nitrite is lighter again, between 0 and 1 and dropping day by day, so the bacteria are winning. KH fell from 80 to 40 in a day. That's the plant soil pulling the buffer down, the same pattern as before. pH 6.8 is better, and it suggests yesterday's 6.2 was a bad read.",
+   "actions": [
+    "50% water change today with 5 ml Fraction. Why: it should clear the last of the nitrite and put KH back up to about 80. Your tap water is KH 180, and KH 40 is the line where pH can start to slide",
+    "Keep feeding lightly. Why: less waste while the bacteria finish catching up",
+    "Test tomorrow morning, nitrite and KH first. Why: nitrite at 0 means the bump is over, and KH shows how fast the soil is pulling it down",
+    "Crushed coral when it arrives. Why: it's the only thing that holds KH up between water changes"
+   ],
+   "notes": "Nitrite logged as 0.5, an estimate (the strip only has 0 and 1). Whether the 10/25 change was done is not reported."
   }
  ]
 }
