@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-26 07:17",
+ "updated": "2026-10-29 07:22",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -338,6 +338,20 @@
     "Crushed coral when it arrives. Why: it's the only thing that holds KH up between water changes"
    ],
    "notes": "Nitrite logged as 0.5, an estimate (the strip only has 0 and 1). Whether the 10/25 change was done is not reported."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-29",
+   "time": "07:22",
+   "title": "Faint nitrite hanging on; KH holding at 40",
+   "meaning": "Nitrite is still faint, between 0 and 1, about where it was on 10/26. It isn't climbing, but it hasn't reached 0 either. Nitrate 10 shows the bacteria are still turning nitrite into nitrate. KH 40 is the same as 10/26. That's low enough that the bacteria work slower, which is likely why the last bit of nitrite is lingering. Ammonia is 0 and the fish are not in danger at this level, but shrimp are more sensitive.",
+   "actions": [
+    "50% water change today with 5 ml Fraction. Why: it lifts KH back to about 80 (tap is KH 180), which helps the bacteria finish the nitrite, and it takes out about half of what's left",
+    "Keep feeding lightly. Why: less waste means less nitrite",
+    "Test tomorrow morning, nitrite and KH first. Why: to see whether a KH boost gets nitrite to 0",
+    "Crushed coral when it arrives. Why: it keeps KH from sliding back to 40 between changes"
+   ],
+   "notes": "Tests 10/27-10/28 not reported. Water changes since 10/24 not reported. Nitrite logged as 0.5, an estimate."
   }
  ]
 }
