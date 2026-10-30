@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-29 07:40",
+ "updated": "2026-10-30 07:19",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -352,6 +352,20 @@
     "Crushed coral when it arrives. Why: it keeps KH from sliding back to 40 between changes"
    ],
    "notes": "Tests 10/27-10/28 not reported. No water changes since 10/24 (Wayne, 07:40). Nitrite logged as 0.5, an estimate."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-30",
+   "time": "07:19",
+   "title": "Nitrite flat and faint; KH creeping up on its own",
+   "meaning": "Nitrite has been faint, between 0 and 1, since 10/26, so it isn't getting worse but it isn't finishing either. KH rose from 40 to about 60 with no water change. That's the first time it has gone up on its own, a sign the soil is pulling less buffer out. Nitrate dipped to about 5, likely the plants and floaters using it. The strip can't tell a trace of nitrite from 0.5, so we can't tell whether this is nearly gone or stuck.",
+   "actions": [
+    "50% water change today with 5 ml Fraction. Why: nitrite has stayed flat for 4 days without changes, a change removes about half of it, and the tap water lifts KH to about 80 so the bacteria work faster",
+    "Keep feeding lightly. Why: less waste for the bacteria while they finish",
+    "Test tomorrow morning, nitrite first. Why: a 0 after the change means this bump is over",
+    "Optional: a liquid nitrite test. Why: it reads 0, 0.25, 0.5, so you'd know whether this is a trace or real nitrite. The strip only shows 0 or 1"
+   ],
+   "notes": "No water changes since 10/24. Nitrite, nitrate, and KH are estimates between strip steps (0.5, 5, 60)."
   }
  ]
 }
