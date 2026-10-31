@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-10-30 07:19",
+ "updated": "2026-10-31 08:49",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -366,6 +366,20 @@
     "Optional: a liquid nitrite test. Why: it reads 0, 0.25, 0.5, so you'd know whether this is a trace or real nitrite. The strip only shows 0 or 1"
    ],
    "notes": "No water changes since 10/24. Nitrite, nitrate, and KH are estimates between strip steps (0.5, 5, 60)."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-10-31",
+   "time": "08:49",
+   "title": "Nitrite back to 0; bump over",
+   "meaning": "Nitrite reads 0 for the first time since 10/22. The bacteria caught up with the shrimp's extra waste on their own, without a water change since 10/24. Ammonia is 0 too. The weak spot is still the buffer: KH 40 and pH 6.2 are at the low edge. At that level pH can slip lower without the strip showing it, which is what slowed the bacteria last week.",
+   "actions": [
+    "25% water change with 4-5 ml Fraction, today or tomorrow. Why: KH under 60 is the routine trigger, and tap water (KH 180) lifts KH and pH back up so the bacteria stay fast",
+    "Back to normal feeding, once a day, eaten in 1-2 minutes. Why: nitrite is 0, so the bacteria are keeping up again",
+    "Daily changes are done. Keep testing each morning. Why: a week of nitrite 0 confirms the cycle is solid again",
+    "Crushed coral when it arrives. Why: it's the fix for KH sliding to 40 between changes"
+   ],
+   "notes": "No water changes since 10/24. Nitrite 0 after 8 days of showing."
   }
  ]
 }
