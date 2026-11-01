@@ -336,3 +336,22 @@ button.tile { display: flex; flex-direction: column; justify-content: flex-start
 .range { display: flex; gap: 6px; margin: 0 0 10px; }
 .range button { flex: 1; min-height: 36px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: inherit; font: inherit; font-size: .85rem; cursor: pointer; }
 .range button[aria-pressed="true"] { background: var(--series); border-color: var(--series); color: var(--card); font-weight: 600; }
+
+/* v1.14: care calendar */
+.care-card h2 { margin-bottom: 4px; }
+.care-h { font-size: .95rem; margin: 14px 0 6px; }
+.care-day { font-size: .8rem; color: var(--muted); margin: 10px 0 4px; font-weight: 600; }
+.care-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.care-item { display: grid; gap: 3px; width: 100%; text-align: left; padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 10px; background: var(--card); color: inherit; font: inherit; cursor: pointer; }
+.care-item.due { border-left-color: var(--watch); background: var(--watch-bg); }
+.care-item.overdue { border-left-color: var(--action); background: var(--action-bg); }
+.care-item.done { border-left-color: var(--ok); opacity: .75; }
+.care-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.care-title { font-weight: 600; }
+.care-tag { font-size: .72rem; font-weight: 700; white-space: nowrap; padding: 2px 7px; border-radius: 999px; }
+.care-tag.due { color: var(--watch); border: 1px solid var(--watch); }
+.care-tag.overdue { color: var(--action); border: 1px solid var(--action); }
+.care-tag.done { color: var(--ok); border: 1px solid var(--ok); }
+.care-detail, .care-why { font-size: .85rem; }
+.care-why { color: var(--muted); }
+.care-link { font-size: .8rem; color: var(--brand, var(--series)); font-weight: 600; }

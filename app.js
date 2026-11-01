@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.13
+/* Tank Manager PWA v1.14
  * Reads tank_water_log.csv (fixed 22-column schema) and journal.json, and shows status,
  * recommendation, latest readings (tap a tile for its detail card and 14-day trend),
  * the last 6 tests (now vs last), and the last 6 journal entries. #log and #journal show everything.
@@ -539,7 +539,7 @@ function render(data, sourceText) {
   $('source').textContent = sourceText;
 
   if (!recs.length) {
-    ['statusCard', 'readingsSection', 'logSection', 'journalSection'].forEach(id => { $(id).hidden = true; });
+    ['statusCard', 'careCard', 'readingsSection', 'logSection', 'journalSection'].forEach(id => { $(id).hidden = true; });
     $('empty').hidden = false;
     $('tankSub').textContent = 'No tests logged yet';
     return;
@@ -586,6 +586,9 @@ function render(data, sourceText) {
   $('readings').querySelectorAll('.tile').forEach(b => b.addEventListener('click', () => openDetail(b.dataset.key)));
   $('readingsSection').hidden = false;
   STATE.current = recs;
+
+  // Care calendar (v1.14)
+  renderCare(recs);
 
   // Test log + journal (v1.12): last 6 on the dashboard, everything on #log / #journal
   renderLists(recs);
@@ -758,6 +761,135 @@ function fillHowto() {
   }));
   document.querySelectorAll('#detailBody [data-close]').forEach(b => b.addEventListener('click', closeDetail));
   document.querySelectorAll('#detailBody [data-open]').forEach(b => b.addEventListener('click', () => switchDetail(b.dataset.open)));
+}
+
+/* ---------- v1.14: Care calendar ----------
+ * Built only from the test log: tests, water changes (water_change_pct), and the latest readings.
+ * The app can't mark jobs done on its own; a job shows as done once Wayne reports it and it lands in a test row.
+ * Settings below are for T40-FW (40 gal, plant soil, corydoras). */
+const CARE = {
+  changeEveryDays: 7,           // routine water change
+  fraction: '4–5 ml Fraction',  // treats the full 40 gal
+  sinkingFoodDays: [1, 3, 5],   // Mon / Wed / Fri, for the corydoras
+  rootTabsDue: '2027-01-07',    // ~3 months after the 2026-10-07 tabs
+  lookAheadDays: 7
+};
+const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+function dayStart(t) { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); }
+function addDays(t, n) { const d = new Date(t); d.setDate(d.getDate() + n); return dayStart(d); }
+function dayDiff(a, b) { return Math.round((dayStart(b) - dayStart(a)) / 86400000); }
+function dayLabel(t, today) {
+  const n = dayDiff(today, t), d = new Date(t);
+  const md = `${d.getMonth() + 1}/${d.getDate()}`;
+  if (n === 0) return `Today · ${md}`;
+  if (n === 1) return `Tomorrow · ${md}`;
+  return `${WD[d.getDay()]} · ${md}`;
+}
+
+/* Work out each job's due day. Returns [{due, title, detail, why, howto, done}] */
+function careTasks(recs, now) {
+  const today = dayStart(now);
+  const last = recs[recs.length - 1];
+  const lastDay = dayStart(last._ts);
+  const out = [];
+
+  // 1. Daily test
+  const testedToday = lastDay >= today;
+  out.push({
+    due: today, done: testedToday, howto: 'test', title: 'Test the water',
+    detail: testedToday ? `Done (${last.time}).` : `Last test ${dayDiff(lastDay, today)} day${dayDiff(lastDay, today) === 1 ? '' : 's'} ago.`,
+    why: 'Testing each morning before feeding catches a nitrite or KH drop before the fish feel it.'
+  });
+
+  // 2. Water change: weekly, or sooner when the latest test calls for one
+  const wc = recs.filter(r => num(r.water_change_pct) > 0);
+  const lastWc = wc.length ? wc[wc.length - 1] : null;
+  const weekly = lastWc ? addDays(lastWc._ts, CARE.changeEveryDays) : today;
+  const kh = num(last.kh_ppm), no2 = num(last.nitrite_ppm), nh3 = num(last.ammonia_ppm);
+  const big = (kh != null && kh < 40) || (no2 != null && no2 >= 0.5) || (nh3 != null && nh3 >= 0.5);
+  const small = (kh != null && kh < 60) || (no2 != null && no2 > 0) || (nh3 != null && nh3 > 0);
+  const reasons = [];
+  if (no2 > 0) reasons.push(`nitrite ${fmt(no2)}`);
+  if (nh3 > 0) reasons.push(`ammonia ${fmt(nh3)}`);
+  if (kh != null && kh < 60) reasons.push(`KH ${fmt(kh)}`);
+  const triggered = big || small;
+  const due = triggered ? Math.min(weekly, lastDay) : weekly;
+  const pct = big ? '50%' : triggered ? '25%' : '25–30%';
+  const since = lastWc ? `Last change ${dayDiff(lastWc._ts, today)} days ago (${lastWc.water_change_pct}%, logged ${lastWc.date.slice(5).replace('-', '/')}).` : 'No water change logged yet.';
+  out.push({
+    due, done: false, howto: 'water-change', title: `${pct} water change + ${CARE.fraction}`,
+    detail: `${since} ${triggered ? `The ${last.date.slice(5).replace('-', '/')} test calls for it (${reasons.join(', ')}).` : 'Weekly routine.'} While you're in there: wipe the glass and net out extra floaters.`,
+    why: triggered
+      ? 'Tap water (KH 180) lifts KH and pH, and a change takes out about half of any nitrite or ammonia. Tell the team when it’s done so it comes off the list.'
+      : 'A weekly change keeps KH up and nitrate down for the bigger fish load. Tell the team when it’s done so it comes off the list.'
+  });
+
+  // 3. Sinking food for the corydoras
+  for (let i = 0; i < CARE.lookAheadDays; i++) {
+    const d = addDays(today, i);
+    if (CARE.sinkingFoodDays.includes(new Date(d).getDay())) {
+      out.push({ due: d, done: false, howto: 'feed', title: 'Sinking food for the catfish', detail: 'A pellet or wafer after the lights dim.', why: 'Corydoras eat off the bottom; the guppies take the flakes before they sink.' });
+    }
+  }
+
+  // 4. Root tabs
+  out.push({ due: dayStart(new Date(`${CARE.rootTabsDue}T00:00`)), done: false, howto: 'plants', title: 'Root tabs', detail: 'Next round, about 3 months after the 10/07 tabs.', why: 'The plant soil runs low on nutrients over time; tabs feed the roots without feeding algae.' });
+  return out;
+}
+
+function careItem(t, today) {
+  const late = !t.done ? dayDiff(t.due, today) : 0;
+  const cls = t.done ? 'done' : late > 0 ? 'overdue' : dayDiff(today, t.due) === 0 ? 'due' : '';
+  const tag = t.done ? '<span class="care-tag done">Done</span>'
+    : late > 0 ? `<span class="care-tag overdue">${late} day${late === 1 ? '' : 's'} overdue</span>`
+    : cls === 'due' ? '<span class="care-tag due">Due today</span>' : '';
+  return `<li><button type="button" class="care-item ${cls}" data-howto="${t.howto}">` +
+    `<span class="care-top"><span class="care-title">${esc(t.title)}</span>${tag}</span>` +
+    `<span class="care-detail">${esc(t.detail)}</span>` +
+    (t.why ? `<span class="care-why"><b>Why:</b> ${esc(t.why)}</span>` : '') +
+    `<span class="care-link">How-to →</span></button></li>`;
+}
+
+function renderCare(recs) {
+  const card = document.getElementById('careCard');
+  if (!card) return;
+  if (!recs.length || isFishless(recs[recs.length - 1])) { card.hidden = true; return; }
+  const today = dayStart(Date.now());
+  const tasks = careTasks(recs, Date.now());
+  const horizon = addDays(today, CARE.lookAheadDays);
+  const now = tasks.filter(t => t.due <= today).sort((a, b) => (a.done - b.done) || (a.due - b.due));
+  const soon = tasks.filter(t => t.due > today && t.due < horizon).sort((a, b) => a.due - b.due);
+  const later = tasks.filter(t => t.due >= horizon).sort((a, b) => a.due - b.due);
+
+  let html = '<h2>Care calendar</h2>';
+  html += `<h3 class="care-h">Today</h3><ul class="care-list">${now.map(t => careItem(t, today)).join('')}</ul>`;
+  if (soon.length) {
+    html += `<h3 class="care-h">Next ${CARE.lookAheadDays} days</h3>`;
+    let prev = null;
+    const seen = new Set(now.map(t => t.title));
+    soon.forEach(t => {
+      // Repeat jobs show their reason once, to keep the list short
+      if (seen.has(t.title)) t = Object.assign({}, t, { why: '' }); else seen.add(t.title);
+      if (t.due !== prev) { html += `${prev !== null ? '</ul>' : ''}<p class="care-day">${dayLabel(t.due, today)}</p><ul class="care-list">`; prev = t.due; }
+      html += careItem(t, today);
+    });
+    html += '</ul>';
+  }
+  html += '<h3 class="care-h">Later and as needed</h3><ul class="care-list">' +
+    later.map(t => careItem(Object.assign({}, t, { detail: `${dayLabel(t.due, today)}. ${t.detail}` }), today)).join('') +
+    careItem({ due: horizon, done: false, howto: 'filter', title: 'Rinse the canister media', detail: 'Only when the flow is clearly weaker.', why: 'Most of the good bacteria live in the filter, so rinse gently in old tank water, never tap water.' }, today) +
+    '</ul>';
+  html += '<p class="small muted">Jobs come off the list once they show up in the log, so tell the team when one is done.</p>';
+  card.innerHTML = html;
+  card.hidden = false;
+  card.querySelectorAll('[data-howto]').forEach(b => b.addEventListener('click', () => openHowto(b.dataset.howto)));
+}
+
+/* Open the How-to card with one guide expanded. */
+function openHowto(id) {
+  openDetail('howto');
+  const d = document.getElementById('howto-' + id);
+  if (d) { d.open = true; d.scrollIntoView({ block: 'start' }); }
 }
 
 /* Swap the open card's content without stacking history entries. */
