@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-11-01 08:33",
+ "updated": "2026-11-01 08:39",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -391,9 +391,11 @@
     "25% water change today with 4-5 ml Fraction. Why: KH under 60 and any nitrite are both triggers for it. Tap water lifts KH and pH so the bacteria keep up with the new animals, and Fraction binds the trace of nitrite",
     "Feed lightly for the next 3-4 days. Why: the bacteria need time to grow for the new animals, and less food means less waste meanwhile",
     "No more new animals for at least 2 weeks. Why: the bacteria can't keep pace with repeated additions, and the new ones weren't quarantined",
-    "Watch the new animals for white spots, fuzz, clamped fins, or hiding. Why: unquarantined animals can bring in disease"
+    "Watch the new animals for white spots, fuzz, clamped fins, or hiding. Why: unquarantined animals can bring in disease",
+    "Sinking food (pellet or wafer) a few times a week, after the lights dim. Why: corydoras feed on the bottom and won't get flakes the guppies eat at the top",
+    "Weekly 25-30% water change from now on. Why: more fish means more waste, and weekly changes keep KH up and nitrate down"
    ],
-   "notes": "Catfish, snails, and others added (by someone; species and counts not stated). Photos mentioned but not received. No water changes since 10/24. Nitrite 0.25, nitrate 5, and pH 6.5 are estimates."
+   "notes": "Added by someone (species and counts not stated). From the 08:39 photos (Joseph's IDs, not confirmed): many guppies, a red tetra (possibly serpae), spotted corydoras-type catfish, a long black cone snail, and small dark round snails. The tank now holds noticeably more fish than the ~19 counted in October. No water changes since 10/24. Nitrite 0.25, nitrate 5, and pH 6.5 are estimates."
   }
  ]
 }
