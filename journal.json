@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-11-01 08:39",
+ "updated": "2026-11-07 06:57",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -396,6 +396,20 @@
     "Weekly 25-30% water change from now on. Why: more fish means more waste, and weekly changes keep KH up and nitrate down"
    ],
    "notes": "Added by someone (species and counts not stated). From the 08:39 photos (Joseph's IDs, not confirmed): many guppies, a red tetra (possibly serpae), spotted corydoras-type catfish, a long black cone snail, and small dark round snails. The tank now holds noticeably more fish than the ~19 counted in October. No water changes since 10/24. Nitrite 0.25, nitrate 5, and pH 6.5 are estimates."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-11-07",
+   "time": "06:57",
+   "title": "Nitrite 0 again, but KH nearly gone after 2 weeks with no change",
+   "meaning": "Nitrite and ammonia are both 0, so the bacteria caught up with the new guppies, catfish, and snails. The problem is the buffer. KH is somewhere between 0 and 40, and pH 6.2 is the lowest the strip reads, so the real pH could be lower. It has been two weeks since the last water change, and the plant soil keeps eating the buffer. The last time KH hit 0 (10/20-10/23), pH crashed, the bacteria slowed, and nitrite came back. Corydoras and shrimp handle that worse than the other fish.",
+   "actions": [
+    "50% water change today with 5 ml Fraction. Why: KH under 40 is the 50% trigger. Tap water (KH 180) brings KH back to about 80 and pH to about 6.8 before the bacteria slow down",
+    "Then a 25-30% change every week. Why: one change only holds KH for a few days with this soil, and the tank now has a lot more fish adding waste",
+    "Test tomorrow morning, KH and pH first. Why: to confirm the change brought them back up",
+    "Crushed coral in the canister as soon as you have it. Why: it holds KH up between changes"
+   ],
+   "notes": "Tests 11/02-11/06 not reported. No water changes since 10/24 (Wayne). KH 20 is an estimate (between 0 and 40). Nitrate very close to 0."
   }
  ]
 }
