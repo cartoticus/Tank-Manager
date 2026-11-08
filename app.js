@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.15
+/* Tank Manager PWA v1.16
  * Reads tank_water_log.csv (fixed 22-column schema) and journal.json, and shows status,
  * recommendation, latest readings (tap a tile for its detail card and 14-day trend),
  * the last 6 tests (now vs last), and the last 6 journal entries. #log and #journal show everything.
@@ -143,7 +143,7 @@ const CYCLE_STEPS = [
 const HOWTO = [
   {
     id: 'water-change', title: 'Do a 25% water change', time: '20–30 min',
-    when: 'When a test calls for it (any nitrite or ammonia, or KH under 60), and at least once a week. The plant soil keeps pulling KH down, and fresh tap water (KH 180) is what puts it back.',
+    when: 'When a test calls for it (any nitrite or ammonia, or KH under 60), and at least once a week. The plant soil keeps pulling KH down, and fresh tap water (KH 120 as of 11/08) puts some back. The aragonite in the canister does the rest.',
     need: ['Siphon / gravel vac and a bucket (about 10 gal total for 25%)', 'Continuum Fraction (4 ml)', 'Thermometer, or your hand on the glass'],
     steps: [
       'Unplug the canister filter (the heater is built into it) so it does not suck air while the water is low.',
@@ -202,21 +202,18 @@ const HOWTO = [
   {
     id: 'kh', title: 'Raise KH (low KH)', time: '10 min + water change',
     when: 'KH under 60. Under 40 is urgent. Why: KH is the buffer that holds pH steady. When it runs out, pH can drop fast, which stresses fish and slows the filter bacteria. That is what caused the nitrite bump on 10/23.',
-    need: ['Crushed coral (about 1 cup)', 'Mesh media bag', 'Water change gear'],
+    need: ['Aragonite sand or crushed coral (1–2 cups)', 'Fine-mesh media bag', 'Water change gear'],
     steps: [
-      'Fast fix: do a 25% water change. Your tap is KH 180, so each change lifts the tank about 35–40.',
-      'Long-term fix: rinse about 1 cup of crushed coral in a bucket of old tank water.',
-      'Put it in a mesh bag and tie it shut.',
-      'Turn off and open the canister (see "Rinse the canister media" for opening). Put the bag in a tray where water flows through it.',
-      'Close it up, restart, and check for leaks.',
-      'Test KH every morning. The coral works slowly over 1–2 weeks. If KH climbs over about 150, take some coral out.',
+      'Fast fix: do a 50% water change. Your tap is now KH 120 (11/08 test), so a 50% change lifts the tank to about 60. Why: it\'s the quickest relief, but the soil drains it within about a day.',
+      'Long-term fix: put aragonite in the canister. See "Add aragonite to the canister" for the steps. Why: it releases buffer non-stop as the soil eats it.',
+      'Test KH every morning. The aragonite works over several days to 2 weeks. If KH climbs over about 150, take some out.',
       'Optional, only if you choose to: if KH drops under 40 and you can\'t do a water change that day, ½ tsp of baking soda dissolved in a cup of tank water and poured in slowly raises KH by about 10. Why: baking soda is sodium bicarbonate, the same buffer the KH pad measures. Use no more than 1 tsp a day, so pH doesn\'t jump.'
     ],
-    tip: 'Your plant soil is the main thing pulling KH down, and the bacteria use some too. A 50% change gets it back to about 80 but only holds for 1–2 days, which is why the coral is the long-term fix.'
+    tip: 'Your plant soil is the main thing pulling KH down, and the bacteria use some too. With tap water at KH 120, water changes alone can\'t keep up, which is why the aragonite is the long-term fix.'
   },
   {
-    id: 'filter', title: 'Rinse the canister media', time: '20 min',
-    when: 'Only when the flow is clearly weaker. Not while the tank is cycling unless flow has nearly stopped. Most of your bacteria live in there.',
+    id: 'filter', title: 'Rinse the canister media (and check the aragonite)', time: '20 min',
+    when: 'When the flow is clearly weaker, or every 4–6 weeks to check the aragonite bag (the Care calendar reminds you). Most of your bacteria live in there, so be gentle.',
     need: ['Bucket of OLD tank water (from a water change)', 'Towel'],
     steps: [
       'Siphon a bucket of tank water first. Do not use tap water: chlorine kills the bacteria.',
@@ -225,11 +222,33 @@ const HOWTO = [
       'Open the canister and lift out the media trays.',
       'Swish the sponges and pads in the bucket and squeeze them a few times. They should still look a bit brown. Do not try to get them clean.',
       'Leave the biological media (rings or balls) alone, or just dunk them once.',
-      'Put everything back the same way and reconnect the hoses.',
+      'Check the aragonite bag: swish it in the same bucket of tank water, then look at the pile. Why: gunk coats the grains and slows how fast they release buffer.',
+      'If the pile looks clearly smaller than when it went in, or KH has been slipping below 80, add about 1 cup of rinsed aragonite to the bag. Why: it dissolves as it works, so there is gradually less of it.',
+      'Put everything back the same way, with the aragonite bag back in its basket, and reconnect the hoses.',
       'Plug it in. Check for leaks and air. Tilt or shake it gently to clear air bubbles.',
       'Check the heater is on and the temperature is right in an hour.'
     ],
     tip: 'Never replace all the media at once, and never let it dry out or sit switched off for more than an hour.'
+  },
+  {
+    id: 'aragonite', title: 'Add aragonite to the canister', time: '30 min',
+    when: 'Once, to set it up (KH keeps falling to 0 between water changes). Then top up about 1 cup when the pile shrinks or KH slips below 80.',
+    need: ['CaribSea Aragonite Sand (dry, not "live")', 'Fine-mesh filter media bag', 'Measuring cup', 'Clean bucket (never used with soap)', 'Bucket of OLD tank water', 'Towel'],
+    steps: [
+      'Scoop 1–2 cups of aragonite into the clean bucket. Start with 1½ cups for 40 gallons. Why: enough to hold KH up, and easy to add more later.',
+      'Rinse it with tap water: fill, swirl, pour off the cloudy water. Repeat until the water runs mostly clear. Why: the dust would cloud the tank. Tap water is fine here because the new sand has no bacteria on it yet.',
+      'Test the bag: put a spoonful in, shake it over the sink. If grains slip through, double the bag over itself. Why: grit in the canister can wear out the impeller.',
+      'Pour the rinsed sand into one corner of the bag. Tie a knot or cinch the drawstring right above it, so it makes a small, firm pouch. Why: a loose, floppy bag bunches up and blocks water flow.',
+      'Siphon a bucket of tank water (do this during a water change). Why: you will rest the filter media in it so the bacteria stay wet and alive.',
+      'Unplug the canister. Close the hose valves or lift the hoses, disconnect, and open it (same as "Rinse the canister media").',
+      'Lift out the baskets and set them in the bucket of tank water.',
+      'Put the pouch in a basket AFTER the sponge or coarse pad, spread out flat, on top of or beside the biological media. Do not take out any biological media to make room. Why: the sponge catches dirt first so the grains stay clean, and water flowing through the sand dissolves it fastest.',
+      'Put the baskets back in the same order, close the lid, and reconnect the hoses.',
+      'Plug it in. Check for leaks, and tilt or shake the canister gently to clear air. Make sure water is flowing strongly out of the outlet. Why: the bag should not slow the flow; if it does, spread it flatter or use less sand.',
+      'Check the heater is on and the temperature is right in an hour.',
+      'Keep the ½ tsp baking soda daily and test KH and pH each morning. Stop the baking soda once KH holds at 80 or higher on its own. Why: the aragonite takes several days to 2 weeks to take over.'
+    ],
+    tip: 'The water may look slightly hazy for a few hours from leftover dust. That is harmless and clears on its own. Store the rest of the bag dry for top-ups.'
   },
   {
     id: 'feed', title: 'Feed the fish', time: '1 min',
