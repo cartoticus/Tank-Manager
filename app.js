@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.14
+/* Tank Manager PWA v1.15
  * Reads tank_water_log.csv (fixed 22-column schema) and journal.json, and shows status,
  * recommendation, latest readings (tap a tile for its detail card and 14-day trend),
  * the last 6 tests (now vs last), and the last 6 journal entries. #log and #journal show everything.
@@ -772,6 +772,8 @@ const CARE = {
   fraction: '4–5 ml Fraction',  // treats the full 40 gal
   sinkingFoodDays: [1, 3, 5],   // Mon / Wed / Fri, for the corydoras
   rootTabsDue: '2027-01-07',    // ~3 months after the 2026-10-07 tabs
+  aragoniteStart: '2026-11-08', // aragonite sand bag went into the canister
+  aragoniteEveryDays: 35,       // rinse every 5 weeks
   lookAheadDays: 7
 };
 const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -815,12 +817,12 @@ function careTasks(recs, now) {
   const triggered = big || small;
   const due = triggered ? Math.min(weekly, lastDay) : weekly;
   const pct = big ? '50%' : triggered ? '25%' : '25–30%';
-  const since = lastWc ? `Last change ${dayDiff(lastWc._ts, today)} days ago (${lastWc.water_change_pct}%, logged ${lastWc.date.slice(5).replace('-', '/')}).` : 'No water change logged yet.';
+  const since = lastWc ? `Last change ${dayDiff(lastWc._ts, today)} day${dayDiff(lastWc._ts, today) === 1 ? '' : 's'} ago (${lastWc.water_change_pct}%, logged ${lastWc.date.slice(5).replace('-', '/')}).` : 'No water change logged yet.';
   out.push({
     due, done: false, howto: 'water-change', title: `${pct} water change + ${CARE.fraction}`,
     detail: `${since} ${triggered ? `The ${last.date.slice(5).replace('-', '/')} test calls for it (${reasons.join(', ')}).` : 'Weekly routine.'} While you're in there: wipe the glass and net out extra floaters.`,
     why: triggered
-      ? 'Tap water (KH 180) lifts KH and pH, and a change takes out about half of any nitrite or ammonia. Tell the team when it’s done so it comes off the list.'
+      ? 'Tap water (KH 120) lifts KH and pH, and a change takes out about half of any nitrite or ammonia. Tell the team when it’s done so it comes off the list.'
       : 'A weekly change keeps KH up and nitrate down for the bigger fish load. Tell the team when it’s done so it comes off the list.'
   });
 
@@ -832,7 +834,13 @@ function careTasks(recs, now) {
     }
   }
 
-  // 4. Root tabs
+  // 4. Aragonite bag rinse, every 5 weeks from when it went in (next one coming up; the app can't tell when it was done)
+  const aStart = dayStart(new Date(`${CARE.aragoniteStart}T00:00`));
+  let aDue = addDays(aStart, CARE.aragoniteEveryDays);
+  while (aDue < today) aDue = addDays(aDue, CARE.aragoniteEveryDays);
+  out.push({ due: aDue, done: false, howto: 'filter', title: 'Rinse the aragonite bag', detail: 'Swish it in old tank water when you clean the canister. Add about a cup if the pile has shrunk or KH slips below 80.', why: 'Gunk coats the grains and slows how fast they release buffer; tank water keeps the bacteria on them alive.' });
+
+  // 5. Root tabs
   out.push({ due: dayStart(new Date(`${CARE.rootTabsDue}T00:00`)), done: false, howto: 'plants', title: 'Root tabs', detail: 'Next round, about 3 months after the 10/07 tabs.', why: 'The plant soil runs low on nutrients over time; tabs feed the roots without feeding algae.' });
   return out;
 }
