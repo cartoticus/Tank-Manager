@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-11-08 09:51",
+ "updated": "2026-11-08 09:59",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -415,15 +415,16 @@
    "tank_id": "T40-FW",
    "date": "2026-11-08",
    "time": "09:50",
-   "title": "KH 0 a day and a half after a 50% change: check the tap water",
-   "meaning": "KH is 0, and that's only about 36 hours after a 50% water change. Earlier 50% changes brought KH up to about 80, and it held for a day or two. This time KH read 0-40 the very next morning. Something has changed: either the tap water now has much less KH than the 180 measured on 10/04, the strip's KH pad is reading wrong, or the soil is pulling KH much faster. A quick strip test of the tap water will tell which. Ammonia and nitrite are still 0.",
+   "title": "KH 0; tap KH down to 120; two mollies died",
+   "meaning": "The tap test explains the KH problem. Your tap water now reads KH 120, down from 180 in October, and the strips are reading correctly (the photo shows tap KH green and tank KH yellow). So a 50% change only lifts the tank to about 60, and the plant soil pulls that back to 0 within a day. Water changes alone can't keep up anymore. Two mollies have died this week. Mollies need harder, higher-pH water (about 7.5 and up), so pH at 6.2 or below is very likely part of it. New animals that weren't quarantined could also have brought in disease.",
    "actions": [
-    "Dip a strip in plain tap water first (run the tap a few seconds). Why: if tap KH reads well above 80, the strips work and the tank is eating KH fast. If tap KH reads low, water changes can't raise KH anymore, and a different fix is needed",
-    "Then do a 50% change with 5 ml Fraction. Why: even with low-KH tap water it helps, and it's the only fix on hand",
-    "Test the tank about an hour after the change. Why: shows whether the change actually raised KH, before the soil can pull it back down",
-    "Baking soda (½ tsp dissolved, poured slowly) if the tap water turns out to be low in KH. Only if you choose to. Why: it adds the buffer directly. Crushed coral is the long-term fix"
+    "Take out any dead fish right away and look over the rest. Why: a dead fish rots into ammonia fast, and if it was disease, it can spread",
+    "50% water change today with 5 ml Fraction. Why: it lifts KH to about 60 and pH toward 7, which is the quickest relief",
+    "Get crushed coral today if the online order hasn't come (any fish store, about $10; 1-2 cups in a mesh bag in the canister). Why: it releases buffer continuously as the soil eats it, which water changes can't do anymore",
+    "Recommended until the coral is in: ½ tsp baking soda a day, dissolved in a cup of tank water and poured in slowly (your call). Why: it adds the buffer directly and keeps pH from crashing between changes. The mollies and catfish are the most at risk",
+    "Test KH and pH tomorrow morning. Why: to see whether the change and buffer are holding"
    ],
-   "notes": "50% change done Friday night (11/06; Wayne, 11/08 09:51), logged in the 11/07 row. No change 11/07."
+   "notes": "50% change done 11/06 night. Tap 11/08: KH 120, pH 7.8, GH 125, chlorine 0 (the pad can't show under 0.5; keep using Fraction). Two mollies died 11/01-11/08."
   }
  ]
 }
