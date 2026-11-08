@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-11-08 09:50",
+ "updated": "2026-11-08 09:51",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -401,7 +401,7 @@
    "tank_id": "T40-FW",
    "date": "2026-11-07",
    "time": "06:57",
-   "title": "Nitrite 0 again, but KH nearly gone after 2 weeks with no change",
+   "title": "Nitrite 0; KH low even the morning after a 50% change",
    "meaning": "Nitrite and ammonia are both 0, so the bacteria caught up with the new guppies, catfish, and snails. The problem is the buffer. KH is somewhere between 0 and 40, and pH 6.2 is the lowest the strip reads, so the real pH could be lower. It has been two weeks since the last water change, and the plant soil keeps eating the buffer. The last time KH hit 0 (10/20-10/23), pH crashed, the bacteria slowed, and nitrite came back. Corydoras and shrimp handle that worse than the other fish.",
    "actions": [
     "50% water change today with 5 ml Fraction. Why: KH under 40 is the 50% trigger. Tap water (KH 180) brings KH back to about 80 and pH to about 6.8 before the bacteria slow down",
@@ -409,21 +409,21 @@
     "Test tomorrow morning, KH and pH first. Why: to confirm the change brought them back up",
     "Crushed coral in the canister as soon as you have it. Why: it holds KH up between changes"
    ],
-   "notes": "Tests 11/02-11/06 not reported. No water changes since 10/24 (Wayne). KH 20 is an estimate (between 0 and 40). Nitrate very close to 0."
+   "notes": "CORRECTED 11/08: a 50% change was done Friday night (11/06), so this test came the morning after it. Tests 11/02-11/06 not reported. KH 20 is an estimate (between 0 and 40)."
   },
   {
    "tank_id": "T40-FW",
    "date": "2026-11-08",
    "time": "09:50",
-   "title": "KH 0: no buffer left",
-   "meaning": "KH has run out completely. With no buffer, pH can keep sliding below 6.2 without the strip showing it. Low pH slows the filter bacteria, which is how nitrite came back on 10/23, the last time KH hit 0. Ammonia and nitrite are still 0 for now. The plant soil keeps pulling KH down, and only fresh tap water (KH 180) or crushed coral puts it back.",
+   "title": "KH 0 a day and a half after a 50% change: check the tap water",
+   "meaning": "KH is 0, and that's only about 36 hours after a 50% water change. Earlier 50% changes brought KH up to about 80, and it held for a day or two. This time KH read 0-40 the very next morning. Something has changed: either the tap water now has much less KH than the 180 measured on 10/04, the strip's KH pad is reading wrong, or the soil is pulling KH much faster. A quick strip test of the tap water will tell which. Ammonia and nitrite are still 0.",
    "actions": [
-    "50% water change today with 5 ml Fraction. Why: it's the only thing on hand that brings KH back up (to about 80) and pH to about 6.8",
-    "Test tomorrow morning, KH and pH first. Why: to confirm the change worked before the bacteria slow down",
-    "If a change truly can't happen today: 1/2 tsp baking soda dissolved in a cup of tank water, poured in slowly (only if you choose to). Why: it's the same buffer the KH pad measures, and it adds about 10 KH. It's a stopgap, not a fix",
-    "Weekly 25-30% changes, and crushed coral in the canister once you have it. Why: to keep KH from hitting 0 again"
+    "Dip a strip in plain tap water first (run the tap a few seconds). Why: if tap KH reads well above 80, the strips work and the tank is eating KH fast. If tap KH reads low, water changes can't raise KH anymore, and a different fix is needed",
+    "Then do a 50% change with 5 ml Fraction. Why: even with low-KH tap water it helps, and it's the only fix on hand",
+    "Test the tank about an hour after the change. Why: shows whether the change actually raised KH, before the soil can pull it back down",
+    "Baking soda (½ tsp dissolved, poured slowly) if the tap water turns out to be low in KH. Only if you choose to. Why: it adds the buffer directly. Crushed coral is the long-term fix"
    ],
-   "notes": "Whether the 11/07 50% change was done is not reported. The last confirmed change was 10/24."
+   "notes": "50% change done Friday night (11/06; Wayne, 11/08 09:51), logged in the 11/07 row. No change 11/07."
   }
  ]
 }
