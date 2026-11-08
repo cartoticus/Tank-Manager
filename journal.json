@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-11-08 09:59",
+ "updated": "2026-11-08 11:24",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -424,7 +424,7 @@
     "Recommended until the coral is in: ½ tsp baking soda a day, dissolved in a cup of tank water and poured in slowly (your call). Why: it adds the buffer directly and keeps pH from crashing between changes. The mollies and catfish are the most at risk",
     "Test KH and pH tomorrow morning. Why: to see whether the change and buffer are holding"
    ],
-   "notes": "50% change done 11/06 night. Tap 11/08: KH 120, pH 7.8, GH 125, chlorine 0 (the pad can't show under 0.5; keep using Fraction). Two mollies died 11/01-11/08."
+   "notes": "50% change done 11/06 night. Tap 11/08: KH 120, pH 7.8, GH 125, chlorine 0 (the pad can't show under 0.5; keep using Fraction). Two mollies died 11/01-11/08. Wayne (11:24): no signs of illness were noticed before the mollies were found dead (voice note read as 'didn't notice')."
   }
  ]
 }
