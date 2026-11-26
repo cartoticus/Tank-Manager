@@ -1,6 +1,6 @@
 {
  "_note": "Tank journal for the app (v1.12+). One entry per test, matched to tank_water_log.csv by tank_id + date + time. Joseph adds an entry with every new test. Fields: title, meaning, actions (list), notes.",
- "updated": "2026-11-08 11:24",
+ "updated": "2026-11-26 09:10",
  "entries": [
   {
    "tank_id": "T40-FW",
@@ -425,6 +425,19 @@
     "Test KH and pH tomorrow morning. Why: to see whether the change and buffer are holding"
    ],
    "notes": "50% change done 11/06 night. Tap 11/08: KH 120, pH 7.8, GH 125, chlorine 0 (the pad can't show under 0.5; keep using Fraction). Two mollies died 11/01-11/08. Wayne (11:24): no signs of illness were noticed before the mollies were found dead (voice note read as 'didn't notice')."
+  },
+  {
+   "tank_id": "T40-FW",
+   "date": "2026-11-26",
+   "time": "09:05",
+   "title": "All in range: KH 80, pH 7.2, nitrogen all 0",
+   "meaning": "This is the best test in weeks. KH is 80 and pH is 7.2, so the tank has its buffer back (it was KH 0 and pH 6.2 on 11/08). Hardness also doubled to 250 (was 125). You added the aragonite to the filter on Sunday 11/22, and this is day 4 with it, so it is doing its job: it adds both carbonate (KH, pH) and calcium (hardness). Ammonia and nitrite are 0, and nitrate 10 is low, so the filter is handling the fish and the plants are using the rest. Nothing here needs fixing today. Temp 78.2°F is right in range. The last water change was also Sunday 11/22, 4 days ago. Before the aragonite, KH fell back to 0 within about a day or two of a change, so KH 80 four days later means the aragonite is holding the buffer.",
+   "actions": [
+    "Keep the weekly 25-30% water change with 4-5 ml Fraction. Why: it removes nitrate and tops up minerals, and the tap chlorine needs the Fraction every time",
+    "Test KH and pH every day or two for the next week. Why: if the aragonite is doing the job, KH should stay at 80 or above without a rescue water change",
+    "Next water change Sunday 11/29 (25-30%, 4-5 ml Fraction). Why: it's a week since the last one, and the weekly rhythm keeps nitrate low"
+   ],
+   "notes": "Tests 11/09-11/25 not reported. Temp 78.2 (sent 09:08). Aragonite went into the filter Sunday 11/22 and the last water change was also Sunday 11/22 (Wayne, 09:09; size not stated). No new fish or products suggested."
   }
  ]
 }
