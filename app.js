@@ -1,5 +1,5 @@
 'use strict';
-/* Tank Manager PWA v1.16
+/* Tank Manager PWA v1.17
  * Reads tank_water_log.csv (fixed 22-column schema) and journal.json, and shows status,
  * recommendation, latest readings (tap a tile for its detail card and 14-day trend),
  * the last 6 tests (now vs last), and the last 6 journal entries. #log and #journal show everything.
@@ -573,8 +573,8 @@ function render(data, sourceText) {
   const parts = [];
   if (last.cycle_day) parts.push(`Cycle day ${last.cycle_day}`);
   parts.push(fishless ? 'Fishless cycle' : `${last.fish_count || '?'} fish`);
-  const wc = recs.filter(r => num(r.water_change_pct) > 0);
-  parts.push(wc.length ? `Water change ${daysBetween(wc[wc.length - 1]._ts, Date.now())}d ago` : 'No water change logged');
+  const lwc = lastWaterChange(recs);
+  parts.push(lwc ? `Water change ${daysBetween(lwc._ts, Date.now())}d ago` : 'No water change logged');
   $('tankSub').textContent = parts.join(' · ');
 
   // Status + recommendation
@@ -791,7 +791,9 @@ const CARE = {
   fraction: '4–5 ml Fraction',  // treats the full 40 gal
   sinkingFoodDays: [1, 3, 5],   // Mon / Wed / Fri, for the corydoras
   rootTabsDue: '2027-01-07',    // ~3 months after the 2026-10-07 tabs
-  aragoniteStart: '2026-11-08', // aragonite sand bag went into the canister
+  aragoniteStart: '2026-11-22', // aragonite went into the filter (Sunday 11/22)
+  // Water changes Wayne reported that are not on a test row (size not given). Add the date here when one is reported outside a test.
+  extraChanges: ['2026-11-22'],
   aragoniteEveryDays: 35,       // rinse every 5 weeks
   lookAheadDays: 7
 };
@@ -805,6 +807,18 @@ function dayLabel(t, today) {
   if (n === 0) return `Today · ${md}`;
   if (n === 1) return `Tomorrow · ${md}`;
   return `${WD[d.getDay()]} · ${md}`;
+}
+
+/* Latest water change: the newest test row with water_change_pct, or a reported date in CARE.extraChanges, whichever is later.
+   Returns {_ts, date, pct} (pct is null when the size was not reported) or null. */
+function lastWaterChange(recs) {
+  const wc = recs.filter(r => num(r.water_change_pct) > 0);
+  let best = wc.length ? { _ts: wc[wc.length - 1]._ts, date: wc[wc.length - 1].date, pct: wc[wc.length - 1].water_change_pct } : null;
+  (CARE.extraChanges || []).forEach(d => {
+    const ts = new Date(`${d}T00:00`).getTime();
+    if (!best || dayStart(ts) > dayStart(best._ts)) best = { _ts: ts, date: d, pct: null };
+  });
+  return best;
 }
 
 /* Work out each job's due day. Returns [{due, title, detail, why, howto, done}] */
@@ -823,8 +837,7 @@ function careTasks(recs, now) {
   });
 
   // 2. Water change: weekly, or sooner when the latest test calls for one
-  const wc = recs.filter(r => num(r.water_change_pct) > 0);
-  const lastWc = wc.length ? wc[wc.length - 1] : null;
+  const lastWc = lastWaterChange(recs);
   const weekly = lastWc ? addDays(lastWc._ts, CARE.changeEveryDays) : today;
   const kh = num(last.kh_ppm), no2 = num(last.nitrite_ppm), nh3 = num(last.ammonia_ppm);
   const big = (kh != null && kh < 40) || (no2 != null && no2 >= 0.5) || (nh3 != null && nh3 >= 0.5);
@@ -836,7 +849,7 @@ function careTasks(recs, now) {
   const triggered = big || small;
   const due = triggered ? Math.min(weekly, lastDay) : weekly;
   const pct = big ? '50%' : triggered ? '25%' : '25–30%';
-  const since = lastWc ? `Last change ${dayDiff(lastWc._ts, today)} day${dayDiff(lastWc._ts, today) === 1 ? '' : 's'} ago (${lastWc.water_change_pct}%, logged ${lastWc.date.slice(5).replace('-', '/')}).` : 'No water change logged yet.';
+  const since = lastWc ? `Last change ${dayDiff(lastWc._ts, today)} day${dayDiff(lastWc._ts, today) === 1 ? '' : 's'} ago (${lastWc.pct != null ? lastWc.pct + '%' : 'size not reported'}, ${lastWc.date.slice(5).replace('-', '/')}).` : 'No water change logged yet.';
   out.push({
     due, done: false, howto: 'water-change', title: `${pct} water change + ${CARE.fraction}`,
     detail: `${since} ${triggered ? `The ${last.date.slice(5).replace('-', '/')} test calls for it (${reasons.join(', ')}).` : 'Weekly routine.'} While you're in there: wipe the glass and net out extra floaters.`,
